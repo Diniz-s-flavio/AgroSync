@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "761446221856",
+    "project_id": "agrosync-875aa",
+    "storage_bucket": "agrosync-875aa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761446221856:android:dbdb2278d79ff7c770d445",
+        "android_client_info": {
+          "package_name": "com.agrosync.agrosyncapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiGDcmRmdfW2NpHRrAgoQIEx2P7ctcG6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
