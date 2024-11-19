@@ -2,4 +2,6 @@
     <string name="app_name">AgroSync</string>
     <string name="emailLabel">Email:</string>
     <string name="passwordLabel">Senha:</string>
+    <string name="registerHere">Não tem conta?\n   Clique aqui!</string>
+    <string name="joinText">Entrar</string>
 </resources>

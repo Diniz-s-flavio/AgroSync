@@ -57,9 +57,40 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"/>
     </LinearLayout>
+
     <Button
+        android:id="@+id/btnSingIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Entrar"
-        android:textSize=""/>
+        android:layout_marginTop="40dp"
+        android:paddingHorizontal="25dp"
+        android:backgroundTint="#56D6FB"
+        android:text="@string/joinText"
+        android:textSize="26sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordContainer" />
+    <ProgressBar
+        android:id="@+id/loaging"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="64dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/passwordContainer"
+        app:layout_constraintEnd_toEndOf="@id/passwordContainer"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvRegisterHere"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/registerHere"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnSingIn" />
 </androidx.constraintlayout.widget.ConstraintLayout>
