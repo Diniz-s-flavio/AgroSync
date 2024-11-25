@@ -1,11 +1,8 @@
-package com.agrosync.agrosyncapp
+package com.agrosync.agrosyncapp.ui.activity.main
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.agrosync.agrosyncapp.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 
