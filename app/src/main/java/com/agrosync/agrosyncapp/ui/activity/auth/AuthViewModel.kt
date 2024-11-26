@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import dev.tontech.job_finder_yt.LoginUiState
-import dev.tontech.job_finder_yt.data.repositories.AuthenticationFirebaseRepository
+import com.agrosync.agrosyncapp.data.repository.AuthenticationFirebaseRepository
+import com.agrosync.agrosyncapp.ui.LoginUiState
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
