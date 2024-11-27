@@ -64,6 +64,7 @@ class LoginFragment : Fragment() {
             if(email.isNotEmpty() && password.isNotEmpty()) {
                 lifecycleScope.launch {
                     vm.login(email, password)
+                    navController.navigate(R.id.action_loginFragment_to_homeFragment) // precisa validar se o login deu certo primeiro
                 }
             } else {
                 Toast.makeText(requireContext(), "Por favor, preencha todos os campos.", Toast.LENGTH_SHORT).show()
