@@ -1,5 +1,6 @@
 package com.agrosync.agrosyncapp.ui.fragment.register
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,10 +12,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.databinding.FragmentRegisterBinding
 import com.agrosync.agrosyncapp.ui.LoginUiState
 import com.agrosync.agrosyncapp.ui.activity.auth.AuthViewModel
+import com.agrosync.agrosyncapp.ui.activity.main.MainActivity
+import com.agrosync.agrosyncapp.ui.fragment.login.LoginFragment
+import com.agrosync.agrosyncapp.ui.fragment.login.LoginFragment.Companion
 import kotlinx.coroutines.launch
 
 class RegisterFragment : Fragment() {
@@ -34,12 +39,16 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        navController = view.findNavController()
+
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 vm.authUiState.collect {state ->
                     when(state) {
                         LoginUiState.LOADING -> Log.d(TAG, "LOADING")
-                        LoginUiState.SUCCESS -> Log.d(TAG, "SUCCESS")
+                        LoginUiState.SUCCESS -> {
+                            navController.navigate(R.id.action_registerFragment_to_loginFragment)
+                        }
                         LoginUiState.ERROR -> Log.d(TAG, "ERROR")
                     }
                 }
@@ -53,10 +62,12 @@ class RegisterFragment : Fragment() {
             val password: String = binding?.etPassword?.text.toString()
             val confirmPassword: String = binding?.etConfirmPassword?.text.toString()
 
-            if(nameFirstName.isNotEmpty() && nameLastName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
+            if(nameFirstName.isNotEmpty() && nameLastName.isNotEmpty() && email.isNotEmpty()
+                && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
                 lifecycleScope.launch {
                     vm.register(email, password)
                 }
+
             }
         }
 

@@ -53,7 +53,8 @@
                     android:layout_height="match_parent"
                     android:inputType="text"
                     android:hint="Seu email"
-                    android:background="#E9E9E9"/>
+                    android:background="#E9E9E9"
+                    android:textColor="@color/black"/>
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -88,6 +89,7 @@
                     android:inputType="text"
                     android:hint="Sua senha"
                     android:background="#E9E9E9"
+                    android:textColor="@color/black"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>

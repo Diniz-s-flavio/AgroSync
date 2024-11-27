@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.fragment)
+    implementation(libs.firebase.firestore)
     implementation(libs.androidx.lifecycle.runtime.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
