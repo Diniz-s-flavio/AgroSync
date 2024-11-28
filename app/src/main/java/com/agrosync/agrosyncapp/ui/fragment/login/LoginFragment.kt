@@ -16,9 +16,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.agrosync.agrosyncapp.R
+import com.agrosync.agrosyncapp.data.model.User
 import com.agrosync.agrosyncapp.databinding.FragmentLoginBinding
 import com.agrosync.agrosyncapp.ui.LoginUiState
-import com.agrosync.agrosyncapp.ui.activity.auth.AuthViewModel
+import com.agrosync.agrosyncapp.viewModel.AuthViewModel
 import com.agrosync.agrosyncapp.ui.activity.main.MainActivity
 import kotlinx.coroutines.launch
 
