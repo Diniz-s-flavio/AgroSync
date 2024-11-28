@@ -1,4 +1,4 @@
-package com.agrosync.agrosyncapp.ui.activity.auth
+package com.agrosync.agrosyncapp.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
