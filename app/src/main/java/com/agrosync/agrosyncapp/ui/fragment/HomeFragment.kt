@@ -1,4 +1,4 @@
-package com.agrosync.agrosyncapp.ui.fragment.home
+package com.agrosync.agrosyncapp.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
