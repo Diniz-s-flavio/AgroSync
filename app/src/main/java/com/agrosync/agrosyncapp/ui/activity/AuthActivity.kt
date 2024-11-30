@@ -1,4 +1,4 @@
-package com.agrosync.agrosyncapp.ui.activity.auth
+package com.agrosync.agrosyncapp.ui.activity
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
