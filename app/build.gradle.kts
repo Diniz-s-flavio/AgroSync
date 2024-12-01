@@ -51,6 +51,8 @@ dependencies {
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.firebase.firestore)
     implementation(libs.androidx.lifecycle.runtime.android)
+    implementation(libs.androidx.drawerlayout)
+    implementation(libs.androidx.navigation.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -5,20 +5,65 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.Toast
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.databinding.FragmentHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 
 class HomeFragment : Fragment() {
 
     private var binding: FragmentHomeBinding? = null
 
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navigationView: NavigationView
+    private lateinit var btnMenuHamburger: ImageButton
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding?.root
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        drawerLayout = view.findViewById(R.id.drawerLayout)
+        navigationView = view.findViewById(R.id.navigationView)
+        btnMenuHamburger = view.findViewById(R.id.btnMenuHamburger)
+
+        // Configurar ações do menu
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_perfil -> {
+                    // Ação para tela de perfil
+                    Toast.makeText(context, "Perfil selecionado", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.nav_configuracoes -> {
+                    // Ação para tela de configurações
+                    Toast.makeText(context, "Configurações selecionadas", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.nav_sair -> {
+                    // Ação para sair
+                    Toast.makeText(context, "Saindo...", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
+        }
+
+        // Abrir e fechar menu
+        btnMenuHamburger.setOnClickListener {
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START)
+            } else {
+                drawerLayout.openDrawer(GravityCompat.START)
+            }
+        }
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
