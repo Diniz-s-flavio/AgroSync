@@ -11,6 +11,18 @@
         android:id="@+id/mainContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="75dp"
+                android:background="@color/primaryColor"/>
+            <include
+                android:id="@+id/fragmentContainerView"
+                layout="@layout/fragment_login" />
+        </LinearLayout>
 
         <!-- Botão do menu hambúrguer -->
         <ImageButton
@@ -21,17 +33,21 @@
             android:layout_margin="16dp"
             android:background="@drawable/hamburger"
             android:contentDescription="Menu" />
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="16dp"
+            android:background="@drawable/as_icon_64"
+            android:contentDescription="Menu" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
-
             style="@style/CustomBottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             app:menu="@menu/bottom_navigation_menu"/>
-
-
     </FrameLayout>
 
     <!-- Menu lateral -->
