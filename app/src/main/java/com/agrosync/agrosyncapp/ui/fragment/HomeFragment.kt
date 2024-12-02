@@ -35,17 +35,17 @@ class HomeFragment : Fragment() {
         // Configurar ações do menu
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.nav_perfil -> {
+                R.id.nav_profile -> {
                     // Ação para tela de perfil
                     Toast.makeText(context, "Perfil selecionado", Toast.LENGTH_SHORT).show()
                     true
                 }
-                R.id.nav_configuracoes -> {
+                R.id.nav_configs -> {
                     // Ação para tela de configurações
                     Toast.makeText(context, "Configurações selecionadas", Toast.LENGTH_SHORT).show()
                     true
                 }
-                R.id.nav_sair -> {
+                R.id.nav_leave -> {
                     // Ação para sair
                     Toast.makeText(context, "Saindo...", Toast.LENGTH_SHORT).show()
                     true
