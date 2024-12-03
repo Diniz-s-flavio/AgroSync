@@ -13,6 +13,9 @@ import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.databinding.FragmentHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 
 class HomeFragment : Fragment() {
 
@@ -21,6 +24,8 @@ class HomeFragment : Fragment() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private lateinit var btnMenuHamburger: ImageButton
+
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +68,18 @@ class HomeFragment : Fragment() {
             }
         }
 
+        auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            val displayName = currentUser.displayName
+            val userName = if (displayName.isNullOrEmpty()) {
+                currentUser.email ?: "Usuario sem nome"
+            } else {
+                "Bem-vindo, $displayName"
+            }
+            binding?.tvWelcome?.text = userName
+        }
+
         return view
     }
 
@@ -88,7 +105,6 @@ class HomeFragment : Fragment() {
                 else -> false
             }
         }
-
 
     }
 }
