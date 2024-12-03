@@ -1,6 +1,5 @@
 package com.agrosync.agrosyncapp.ui.fragment.inventory
 
-import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,13 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.agrosync.agrosyncapp.data.model.ResourceCategory
 import com.agrosync.agrosyncapp.databinding.FragmentResourceCreateBinding
 import com.agrosync.agrosyncapp.ui.LoginUiState
 import com.agrosync.agrosyncapp.ui.activity.MainActivity
@@ -23,7 +22,8 @@ import com.agrosync.agrosyncapp.viewModel.MainViewModel
 import kotlinx.coroutines.launch
 
 class ResourceCreateFragment : Fragment() {
-    private var binding: FragmentResourceCreateBinding? = null
+    private var _binding: FragmentResourceCreateBinding? = null
+    private val binding get() = _binding!!
     private lateinit var navController: NavController
 
     private val vm: MainViewModel by viewModels { MainViewModel.Factory }
@@ -33,7 +33,7 @@ class ResourceCreateFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentResourceCreateBinding.inflate(inflater, container, false)
+        _binding = FragmentResourceCreateBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
@@ -56,25 +56,32 @@ class ResourceCreateFragment : Fragment() {
             }
         }
 
-        val options = listOf("Opção 1", "Opção 2", "Opção 3", "Opção 4")
+        val categories = listOf(
+            ResourceCategory("1", "Eletrônicos"),
+            ResourceCategory("2", "Roupas"),
+            ResourceCategory("3", "Alimentos"),
+            ResourceCategory("4", "Livros")
+        )
 
+        val categoryNames = categories.map { it.name }
+        Log.d("ResourceCreateFragment", "Categorias: $categoryNames")
 
-        // Configurar o adaptador
-        val adapter = ArrayAdapter(requireContext(), R.layout.simple_dropdown_item_1line, options)
-        binding?.spinnerCategoria?.setAdapter(adapter)
+        // Configurar o ArrayAdapter
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            categoryNames
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        // Configurar comportamento de clique
-        binding?.spinnerCategoria?.setOnItemClickListener { _, _, position, _ ->
-            val selectedOption = options[position]
-            // Ação ao selecionar um item
-            println("Selecionado: $selectedOption")
-        }
+        // Atribuir o adapter ao Spinner
+        binding.spinnerCategories.adapter = adapter
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        binding = null
+        _binding = null
     }
 
     companion object {

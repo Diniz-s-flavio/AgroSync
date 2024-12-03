@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -70,6 +71,10 @@ class RegisterFragment : Fragment() {
                     vm.register(user)
                 }
 
+            }else {
+                Toast.makeText(requireContext(),
+                    "Por favor, preencha todos os campos correntamente.",
+                    Toast.LENGTH_SHORT).show()
             }
         }
 

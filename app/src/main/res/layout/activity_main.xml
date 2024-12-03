@@ -21,7 +21,7 @@
                 android:background="@color/primaryColor"/>
             <include
                 android:id="@+id/fragmentContainerView"
-                layout="@layout/fragment_login" />
+                layout="@layout/fragment_resource_create" />
         </LinearLayout>
 
         <!-- Botão do menu hambúrguer -->
