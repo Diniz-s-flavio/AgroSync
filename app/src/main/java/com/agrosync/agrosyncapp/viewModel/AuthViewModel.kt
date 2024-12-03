@@ -1,10 +1,13 @@
 package com.agrosync.agrosyncapp.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
+import com.agrosync.agrosyncapp.data.model.User
 import com.agrosync.agrosyncapp.data.repository.AuthenticationFirebaseRepository
+import com.agrosync.agrosyncapp.data.repository.UserRepository
 import com.agrosync.agrosyncapp.ui.LoginUiState
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -18,6 +21,7 @@ class AuthViewModel(private val db: AuthenticationFirebaseRepository): ViewModel
     val authUiState: StateFlow<LoginUiState>
         get() = _authUiState.asStateFlow()
 
+    private var _userRepoitory = UserRepository()
     fun login(email: String, password: String) {
         viewModelScope.launch {
             db.loginWithEmailAndPassword(email, password).addOnCompleteListener { task ->
@@ -30,10 +34,15 @@ class AuthViewModel(private val db: AuthenticationFirebaseRepository): ViewModel
         }
     }
 
-    fun register(email: String, password: String) {
+    fun register(user: User) {
         viewModelScope.launch {
-            db.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            db.createUserWithEmailAndPassword(user.email, user.password).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    user.id = task.result.user?.uid ?: ""
+                    Log.d(TAG, "User ID: ${user.id}")
+
+                    _userRepoitory.create(user)
+
                     _authUiState.value = LoginUiState.SUCCESS
                 } else {
                     _authUiState.value = LoginUiState.ERROR
@@ -45,6 +54,7 @@ class AuthViewModel(private val db: AuthenticationFirebaseRepository): ViewModel
 
     @Suppress("UNCHECKED_CAST")
     companion object {
+        private const val TAG = "AuthViewModel"
         val Factory: ViewModelProvider.Factory = object: ViewModelProvider.Factory {
             val repo = AuthenticationFirebaseRepository(Firebase.auth)
             override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {

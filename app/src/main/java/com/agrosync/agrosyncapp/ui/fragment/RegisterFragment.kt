@@ -13,6 +13,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.agrosync.agrosyncapp.R
+import com.agrosync.agrosyncapp.data.model.User
+import com.agrosync.agrosyncapp.data.model.UserRole
 import com.agrosync.agrosyncapp.databinding.FragmentRegisterBinding
 import com.agrosync.agrosyncapp.ui.LoginUiState
 import com.agrosync.agrosyncapp.viewModel.AuthViewModel
@@ -52,16 +54,20 @@ class RegisterFragment : Fragment() {
         }
 
         binding?.btnRegister?.setOnClickListener {
-            val nameFirstName: String = binding?.etFirstName?.text.toString()
-            val nameLastName: String = binding?.etFirstName?.text.toString()
-            val email: String = binding?.etEmail?.text.toString()
-            val password: String = binding?.etPassword?.text.toString()
+            val user = User("",
+                binding?.etFirstName?.text.toString(),
+                binding?.etLastName?.text.toString(),
+                binding?.etEmail?.text.toString(),
+                UserRole.OWNER)
+            user.password = binding?.etPassword?.text.toString()
             val confirmPassword: String = binding?.etConfirmPassword?.text.toString()
+            Log.d(TAG, "UserName: ${user.firstName} ${user.lastName}")
 
-            if(nameFirstName.isNotEmpty() && nameLastName.isNotEmpty() && email.isNotEmpty()
-                && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
+            if(user.firstName.isNotEmpty() && user.lastName.isNotEmpty() && user.email.isNotEmpty()
+                && user.password.isNotEmpty() && user.password.equals(confirmPassword)) {
+                Log.d(TAG, "User: $user")
                 lifecycleScope.launch {
-                    vm.register(email, password)
+                    vm.register(user)
                 }
 
             }

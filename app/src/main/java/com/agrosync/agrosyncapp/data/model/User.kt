@@ -1,12 +1,8 @@
 package com.agrosync.agrosyncapp.data.model
 
 
-class User(id: String, firstName: String, lastName: String, email: String) {
-    lateinit var id: String
-    lateinit var firstName: String
-    lateinit var lastName: String
-    lateinit var email: String
-    lateinit var role: UserRole
-    lateinit var owdedFarms: List<Farm>
+data class User(var id: String, var firstName: String, var lastName: String, var email: String, var role: UserRole) {
+    lateinit var password: String
+    var ownedFarms: Farm? = null
     lateinit var managerFarms: List<Farm>
 }
