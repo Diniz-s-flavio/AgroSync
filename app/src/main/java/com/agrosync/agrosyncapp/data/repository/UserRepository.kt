@@ -4,9 +4,12 @@ import android.util.Log
 import com.agrosync.agrosyncapp.data.model.Farm
 import com.agrosync.agrosyncapp.data.model.User
 import com.agrosync.agrosyncapp.data.repository.FarmRepository.Companion
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 
 class UserRepository {
+    private val auth = FirebaseAuth.getInstance()
     private var db = FirebaseFirestore.getInstance()
     private var farmRepository = FarmRepository()
 
@@ -33,6 +36,21 @@ class UserRepository {
                         Log.d(TAG,"Erro ao salvar os dados: ${e.message}")
                     }})
     }
+
+    suspend fun getUserName(): String {
+        val userId = auth.currentUser?.uid ?: throw IllegalArgumentException("Usuário não autenticado")
+        return try {
+            val userDocument = db.collection("user")
+                .document(userId)
+                .get()
+                .await()
+
+            userDocument.getString("firstName") ?: "Usuário"
+        } catch (e: Exception) {
+            "Usuário"
+        }
+    }
+
     companion object {
         private const val TAG = "UserRepository"
     }

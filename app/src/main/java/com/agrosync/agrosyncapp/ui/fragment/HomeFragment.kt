@@ -10,12 +10,16 @@ import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.agrosync.agrosyncapp.R
+import com.agrosync.agrosyncapp.data.repository.UserRepository
 import com.agrosync.agrosyncapp.databinding.FragmentHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -25,7 +29,7 @@ class HomeFragment : Fragment() {
     private lateinit var navigationView: NavigationView
     private lateinit var btnMenuHamburger: ImageButton
 
-    private lateinit var auth: FirebaseAuth
+    private val userRepository = UserRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,19 +71,6 @@ class HomeFragment : Fragment() {
                 drawerLayout.openDrawer(GravityCompat.START)
             }
         }
-
-        auth = FirebaseAuth.getInstance()
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            val displayName = currentUser.displayName
-            val userName = if (displayName.isNullOrEmpty()) {
-                currentUser.email ?: "Usuario sem nome"
-            } else {
-                "Bem-vindo, $displayName"
-            }
-            binding?.tvWelcome?.text = userName
-        }
-
         return view
     }
 
@@ -106,5 +97,17 @@ class HomeFragment : Fragment() {
             }
         }
 
+        loadUserName()
+    }
+
+    private fun loadUserName() {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val userName = userRepository.getUserName()
+                binding?.tvWelcome?.text = "Bem-vindo, $userName!"
+            } catch (e: Exception) {
+                binding?.tvWelcome?.text = "Erro ao carregar o nome do usuário"
+            }
+        }
     }
 }
