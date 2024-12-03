@@ -25,7 +25,6 @@ class HomeFragment : Fragment() {
     private lateinit var navigationView: NavigationView
     private lateinit var btnMenuHamburger: ImageButton
 
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,18 +65,6 @@ class HomeFragment : Fragment() {
             } else {
                 drawerLayout.openDrawer(GravityCompat.START)
             }
-        }
-
-        auth = FirebaseAuth.getInstance()
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            val displayName = currentUser.displayName
-            val userName = if (displayName.isNullOrEmpty()) {
-                currentUser.email ?: "Usuario sem nome"
-            } else {
-                "Bem-vindo, $displayName"
-            }
-            binding?.tvWelcome?.text = userName
         }
 
         return view
