@@ -1,60 +1,65 @@
 package com.agrosync.agrosyncapp.ui.fragment.inventory
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.agrosync.agrosyncapp.R
+import com.agrosync.agrosyncapp.data.model.ResourceCategory
+import com.agrosync.agrosyncapp.databinding.FragmentResourceCreateBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ResourceCreateFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ResourceCreateFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentResourceCreateBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var spinner: Spinner
+    private lateinit var spinnerAdapter: ArrayAdapter<String>
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_resource_create, container, false)
+    ): View {
+        _binding = FragmentResourceCreateBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // Inicializando o Spinner
+        spinner = view.findViewById(R.id.spinnerCategories)
+
+        // Dados para o Spinner
+        val items = listOf("Item 1", "Item 2", "Item 3")
+
+        // Configurando o Adapter
+        spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = spinnerAdapter
+
+        // Configurar o Listener para mudanças
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parentView: AdapterView<*>, view: View?, position: Int, id: Long) {
+                // Lógica quando um item é selecionado
+                Toast.makeText(requireContext(), "Selecionado: ${items[position]}", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>) {}
+        }
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ResourceCreateFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ResourceCreateFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        private const val TAG = "ResourceCreateFragment"
     }
 }
