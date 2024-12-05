@@ -22,10 +22,6 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var drawerLayout: DrawerLayout
-    private lateinit var navigationView: NavigationView
-    private lateinit var btnMenuHamburger: ImageButton
-
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
 
@@ -43,60 +39,7 @@ class HomeFragment : Fragment() {
         firebaseAuth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
-        drawerLayout = binding.drawerLayout
-        navigationView = binding.navigationView
-        btnMenuHamburger = binding.btnMenuHamburger
-
-        setupNavigationDrawer()
-
-        setupBottomNavigation()
-
         loadUserName()
-    }
-
-    private fun setupNavigationDrawer() {
-        navigationView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.nav_profile -> {
-                    Toast.makeText(context, "Perfil selecionado", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                R.id.nav_configs -> {
-                    Toast.makeText(context, "Configurações selecionadas", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                R.id.nav_leave -> {
-                    Toast.makeText(context, "Saindo...", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                else -> false
-            }
-        }
-
-        btnMenuHamburger.setOnClickListener {
-            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                drawerLayout.closeDrawer(GravityCompat.START)
-            } else {
-                drawerLayout.openDrawer(GravityCompat.START)
-            }
-        }
-    }
-
-    private fun setupBottomNavigation() {
-        val bottomNavigationView = binding.bottomNavigation
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.page_1 -> {
-                    Toast.makeText(context, "Página 1 selecionada", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                R.id.page_2 -> {
-                    Toast.makeText(context, "Página 2 selecionada", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                else -> false
-            }
-        }
     }
 
     private fun loadUserName() {
