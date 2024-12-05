@@ -38,7 +38,7 @@
                 android:textSize="20sp"
                 android:textColor="#1970E2"/>
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilCategory"
+                android:id="@+id/tilName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="parent"
@@ -69,7 +69,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Categoria"
+                android:text="Categoria:"
                 android:textSize="20sp"
                 android:textColor="#1970E2"/>
             <Spinner
@@ -78,5 +78,163 @@
                 android:layout_height="wrap_content"
                 android:spinnerMode="dropdown" />
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/measureUnitContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/categoryContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Unidade de Medida:"
+                android:textSize="20sp"
+                android:textColor="#1970E2"/>
+            <Spinner
+                android:id="@+id/spinnerMeasureUnit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/amountContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/measureUnitContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Quantidade: "
+                android:textSize="20sp"
+                android:textColor="#1970E2"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                >
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:hint="Quantidade do insumo"
+                    android:background="#E9E9E9"
+                    android:textColor="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/weightContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/amountContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Peso: "
+                android:textSize="20sp"
+                android:textColor="#1970E2"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                >
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"
+                    android:hint="Peso do insumo"
+                    android:background="#E9E9E9"
+                    android:textColor="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/descriptionContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/weightContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descrição: "
+                android:textSize="20sp"
+                android:textColor="#1970E2"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                >
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etdescriptio"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"
+                    android:hint="Descreva o insumo"
+                    android:background="#E9E9E9"
+                    android:textColor="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/imageContainer"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintTop_toBottomOf="@id/descriptionContainer">
+
+            <ImageView
+                android:id="@+id/resourceImage"
+                android:layout_width="200dp"
+                android:src="@drawable/resource_img_placeholder"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:background="#E0E0E0"
+                android:scaleType="centerCrop" />
+
+            <Button
+                android:id="@+id/btnSelectImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:paddingHorizontal="25dp"
+                android:backgroundTint="#56D6FB"
+                android:text="Selecionar Imagem"
+                android:textSize="26sp"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageContainer"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
