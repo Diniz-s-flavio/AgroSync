@@ -51,11 +51,11 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.page_1 -> {
-                    navController.navigate(R.id.homeFragment)
+                    navController.navigate(R.id.financialFragment)
                     true
                 }
                 R.id.page_2 -> {
-                    navController.navigate(R.id.resourceCreateFragment)
+                    navController.navigate(R.id.homeFragment)
                     true
                 }
                 R.id.page_3 -> {
