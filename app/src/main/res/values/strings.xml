@@ -24,4 +24,5 @@
     <string name="category_label">Categoria:</string>
     <string name="name_input_hint">Nome do insumo</string>
     <string name="name_label">Nome:</string>
+    <string name="resource_title">Insumos</string>
 </resources>

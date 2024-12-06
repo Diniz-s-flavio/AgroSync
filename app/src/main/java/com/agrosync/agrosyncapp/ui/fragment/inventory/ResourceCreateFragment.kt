@@ -94,6 +94,8 @@ class ResourceCreateFragment : Fragment() {
                             farm,
                             selectedMeasureUnit
                         )
+                        resource.totalAmount = 0.0
+                        resource.totalValue = 0.0
                     resourceRepository.create(resource,
                         onSuccess = {
                             response ->

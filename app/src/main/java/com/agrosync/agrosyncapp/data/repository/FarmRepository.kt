@@ -5,6 +5,7 @@ import com.agrosync.agrosyncapp.data.model.Farm
 import com.agrosync.agrosyncapp.data.model.User
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.tasks.await
 
 class FarmRepository {
     private var db = Firebase.firestore
@@ -48,6 +49,19 @@ class FarmRepository {
                 Log.e("HomeFragment", "Erro ao buscar o usuário", e)
                 onSuccess(null)
             }
+    }
+    suspend fun findByOwnerId(uid: String): Farm? {
+        val result = db.collection("farm")
+            .whereEqualTo("ownerId", uid)
+            .get()
+            .await()
+
+        if (!result.isEmpty) {
+            return result.documents[0].toObject(Farm::class.java)
+        } else {
+            Log.e("HomeFragment", "Erro ao buscar o Fazenda")
+            return null
+        }
     }
 
     companion object {

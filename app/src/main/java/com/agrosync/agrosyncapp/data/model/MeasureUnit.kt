@@ -1,9 +1,10 @@
 package com.agrosync.agrosyncapp.data.model
 
 enum class MeasureUnit(val displayName: String) {
-    WEIGHT("Peso"),
+    KG("Quilogramas"),
+    LITER("Litro"),
     PIECE("Peça"),
-    LITER("Litro");
+    METER("Metro");
 
     override fun toString(): String {
         return displayName
