@@ -2,6 +2,7 @@ package com.agrosync.agrosyncapp.data.repository
 
 import android.util.Log
 import com.agrosync.agrosyncapp.data.model.Farm
+import com.agrosync.agrosyncapp.data.model.User
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 
@@ -16,7 +17,7 @@ class FarmRepository {
 
         val data = hashMapOf(
             "id" to farm.id,
-            "ownerId" to farm.owner.id
+            "ownerId" to farm.owner?.id
         )
 
 
@@ -29,6 +30,23 @@ class FarmRepository {
             }
             .addOnFailureListener { e ->
                 Log.d(TAG,"Erro ao salvar os dados: ${e.message}")
+            }
+    }
+
+    fun findByOwnerId(uid: String, onSuccess: (Farm?) -> Unit) {
+        db.collection("farm")
+            .whereEqualTo("ownerId", uid).get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val farm = documents.documents[0].toObject(Farm::class.java)
+                    onSuccess(farm)
+                } else {
+                    onSuccess(null)
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("HomeFragment", "Erro ao buscar o usuário", e)
+                onSuccess(null)
             }
     }
 

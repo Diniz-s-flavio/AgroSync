@@ -11,4 +11,17 @@
     <string name="agrosync_logo">AgroSync Logo</string>
     <string name="registerText">Cadastrar-se</string>
     <string name="newResourceTitle">Novo Insumo</string>
+    <string name="cancel_text">Cancelar</string>
+    <string name="save_text">Salvar</string>
+    <string name="select_img">Selecionar Imagem</string>
+    <string name="resource_desc_input_hint">Descreva o insumo</string>
+    <string name="description_label">Descrição:</string>
+    <string name="weight_input_hint">Peso do insumo</string>
+    <string name="weight_label">Peso:</string>
+    <string name="amount_input_hint">Quantidade do insumo</string>
+    <string name="amaunt_label">Quantidade:</string>
+    <string name="measure_unit_hint">Unidade de Medida:</string>
+    <string name="category_label">Categoria:</string>
+    <string name="name_input_hint">Nome do insumo</string>
+    <string name="name_label">Nome:</string>
 </resources>
