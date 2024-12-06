@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:title="Perfil" />
+        <item
+            android:id="@+id/nav_configs"
+            android:title="Configurações" />
+        <item
+            android:id="@+id/nav_support"
+            android:title="Suporte" />
+        <item
+            android:id="@+id/nav_leave"
+            android:title="Sair" />
+    </group>
+</menu>

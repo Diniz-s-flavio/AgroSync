@@ -40,7 +40,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -49,8 +48,12 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.fragment)
+    implementation(libs.firebase.firestore)
     implementation(libs.androidx.lifecycle.runtime.android)
+    implementation(libs.androidx.drawerlayout)
+    implementation(libs.androidx.navigation.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.material.v190)
 }

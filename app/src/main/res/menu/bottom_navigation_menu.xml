@@ -2,17 +2,14 @@
 
     <item
         android:id="@+id/page_1"
-        android:enabled="true"
         android:icon="@drawable/ic_dolar"
         android:title="Financeiro"/>
     <item
         android:id="@+id/page_2"
-        android:enabled="true"
         android:icon="@drawable/ic_home"
         android:title="Home"/>
     <item
         android:id="@+id/page_3"
-        android:enabled="true"
         android:icon="@drawable/ic_inventario"
         android:title="Inventário"/>
 

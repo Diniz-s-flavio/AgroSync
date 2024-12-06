@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.agrosync.agrosyncapp.ui.fragment.HomeFragment"
+        android:label="Home Screen"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_resourceCreateFragment"
+            app:destination="@id/resourceCreateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resourceCreateFragment"
+        android:name="com.agrosync.agrosyncapp.ui.fragment.inventory.ResourceCreateFragment"
+        android:label="ResourceCreateFragment"
+        tools:layout="@layout/fragment_resource_create">
+        <action
+            android:id="@+id/action_resourceCreateFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+</navigation>
