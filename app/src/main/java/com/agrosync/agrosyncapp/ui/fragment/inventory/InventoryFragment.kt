@@ -9,9 +9,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.data.model.Resource
 import com.agrosync.agrosyncapp.data.repository.FarmRepository
 import com.agrosync.agrosyncapp.data.repository.ResourceRepository
@@ -29,6 +32,7 @@ class InventoryFragment : Fragment() {
     private lateinit var resourceRepository: ResourceRepository
     private lateinit var farmRepository: FarmRepository
     private lateinit var auth: FirebaseAuth
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +52,7 @@ class InventoryFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.setHasFixedSize(true)
+        navController = view.findNavController()
 
         lifecycleScope.launch {
             val farm = auth.currentUser?.let { farmRepository.findByOwnerId(it.uid) }
@@ -61,6 +66,10 @@ class InventoryFragment : Fragment() {
             } else {
                 Toast.makeText(requireContext(), "Nenhum recurso encontrado", Toast.LENGTH_SHORT).show()
             }
+
+            binding.createResourceButton.setOnClickListener {
+                navController.navigate(R.id.action_inventoryFragment_to_resourceCreateFragment)
+            }
         }
     }
 
@@ -68,7 +77,9 @@ class InventoryFragment : Fragment() {
         return object : ResourceAdapter.ResourceClickListener{
             @SuppressLint("RestrictedApi")
             override fun onItemClick(holder: ResourceAdapter.ResourceViewHolder, position: Int) {
+                Log.d(TAG, "Clicou no item $position")
                 val resource = resourceList?.getOrNull(position)?: return
+                Log.d(TAG, "Clicou no item ${resource.name}")
                 Toast.makeText(requireContext(), "Clicou no item ${resource.name}", Toast.LENGTH_SHORT).show()
             }
         }

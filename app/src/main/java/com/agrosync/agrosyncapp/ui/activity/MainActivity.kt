@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.page_3 -> {
-                    navController.navigate(R.id.resourceCreateFragment)
+                    navController.navigate(R.id.inventoryFragment)
                     true
                 }
                 else -> false

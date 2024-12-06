@@ -37,7 +37,7 @@ class ResourceAdapter(private val context: Context,
         holder.unit.text = resourceList[position].measureUnit.displayName
 
         holder.itemView.setOnClickListener {
-
+            onItemClickListener.onItemClick(holder, position)
         }
     }
     override fun getItemCount(): Int = resourceList.size
