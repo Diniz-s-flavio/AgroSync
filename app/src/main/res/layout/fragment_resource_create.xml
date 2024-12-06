@@ -57,7 +57,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/categoryContainer"
+            android:id="@+id/operationContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -72,7 +72,7 @@
                 android:textSize="20sp"
                 android:textColor="#1970E2"/>
             <Spinner
-                android:id="@+id/spinnerCategories"
+                android:id="@+id/spinnerOperations"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:spinnerMode="dropdown" />
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/categoryContainer"
+            app:layout_constraintTop_toBottomOf="@id/operationContainer"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="20dp"
             >
