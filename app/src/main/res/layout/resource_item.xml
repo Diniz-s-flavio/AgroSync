@@ -4,7 +4,11 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    android:elevation="8dp">
+    android:elevation="8dp"
+    android:padding="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="40dp"
+    android:layout_marginTop="20dp">
     <TextView
         android:id="@+id/tvItemTitle"
         android:layout_width="wrap_content"
@@ -19,10 +23,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Qtd: 1,200"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@+id/tvItemTitle"
         app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+        android:id="@+id/tvItemUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quilo"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvItemTitle"
+        app:layout_constraintEnd_toStartOf="@id/ivItemImage"
+        android:layout_marginEnd="20dp"/>
+
+    <ImageView
+        android:id="@+id/ivItemImage"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:textSize="18sp"
+        android:src="@drawable/resource_img_placeholder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

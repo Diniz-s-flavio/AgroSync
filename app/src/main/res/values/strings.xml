@@ -33,4 +33,5 @@
     <string name="description_hint">descrição</string>
     <string name="date">Data</string>
     <string name="edit_transaction">Editar Transação</string>
+    <string name="resource_title">Insumos</string>
 </resources>
