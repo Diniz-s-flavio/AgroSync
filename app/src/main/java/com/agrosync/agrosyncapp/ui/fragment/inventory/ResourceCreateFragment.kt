@@ -72,8 +72,6 @@ class ResourceCreateFragment : Fragment() {
         btnSave = binding.btnSave
         btnCancel = binding.btnCancel
 
-//        navController = view.findNavController()
-
         setupCategoriesSpinner()
         setupMeasureUnitSpinner()
 
@@ -109,7 +107,7 @@ class ResourceCreateFragment : Fragment() {
 
         }
         btnCancel.setOnClickListener{
-//            navController.navigate(R.id.action_resourceCreateFragment_to_homeFragment)
+            findNavController().navigate(R.id.action_resourceCreateFragment_to_homeFragment)
         }
     }
 

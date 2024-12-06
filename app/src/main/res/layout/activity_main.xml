@@ -6,26 +6,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:navGraph="@navigation/mobile_navigation"
+        app:defaultNavHost="true" />
+
     <!-- Conteúdo principal da fragment -->
     <FrameLayout
         android:id="@+id/mainContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <!-- Botão do menu hambúrguer -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="75dp"
-                android:background="@color/primaryColor"/>
-            <FrameLayout
-                android:id="@+id/fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:background="@color/primaryColor" />
         </LinearLayout>
 
-        <!-- Botão do menu hambúrguer -->
         <ImageButton
             android:id="@+id/btnMenuHamburger"
             android:layout_width="48dp"
