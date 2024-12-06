@@ -24,4 +24,13 @@
     <string name="category_label">Categoria:</string>
     <string name="name_input_hint">Nome do insumo</string>
     <string name="name_label">Nome:</string>
+    <string name="title">Título</string>
+    <string name="title_hint">título</string>
+    <string name="operacao">Operação</string>
+    <string name="value">Valor</string>
+    <string name="valor_hint">valor</string>
+    <string name="description">Descrição</string>
+    <string name="description_hint">descrição</string>
+    <string name="date">Data</string>
+    <string name="edit_transaction">Editar Transação</string>
 </resources>

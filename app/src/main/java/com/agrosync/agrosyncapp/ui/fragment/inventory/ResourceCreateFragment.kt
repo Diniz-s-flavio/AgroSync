@@ -13,21 +13,14 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentController
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.agrosync.agrosyncapp.R
-import com.agrosync.agrosyncapp.data.model.Farm
 import com.agrosync.agrosyncapp.data.model.MeasureUnit
 import com.agrosync.agrosyncapp.data.model.Resource
 import com.agrosync.agrosyncapp.data.repository.FarmRepository
 import com.agrosync.agrosyncapp.data.repository.ResourceRepository
-import com.agrosync.agrosyncapp.data.repository.UserRepository
 import com.agrosync.agrosyncapp.databinding.FragmentResourceCreateBinding
-import com.agrosync.agrosyncapp.ui.fragment.HomeFragment
-import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 
 class ResourceCreateFragment : Fragment() {
@@ -65,7 +58,7 @@ class ResourceCreateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        spinnerCategories = view.findViewById(R.id.spinnerCategories)
+        spinnerCategories = view.findViewById(R.id.spinnerOperations)
         spinnerMeasureUnit = view.findViewById(R.id.spinnerMeasureUnit)
         resourceImage = binding.resourceImage
         btnSelectImage = binding.btnSelectImage
