@@ -33,6 +33,25 @@ class UserRepository {
                         Log.d(TAG,"Erro ao salvar os dados: ${e.message}")
                     }})
     }
+
+    fun findById(uid: String, onSuccess: (User?) -> Unit) {
+        val userDocRef = db.collection("user").document(uid)
+
+        userDocRef.get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val user = document.toObject(User::class.java)
+                    onSuccess(user)
+                } else {
+                    onSuccess(null)
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("HomeFragment", "Erro ao buscar o usuário", e)
+                onSuccess(null)
+            }
+    }
+
     companion object {
         private const val TAG = "UserRepository"
     }

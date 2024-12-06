@@ -1,11 +1,8 @@
 package com.agrosync.agrosyncapp.data.model
 
-class Resource(id: String, name: String, description: String, farm: Farm, measureUnit: MeasureUnit) {
-    lateinit var id: String
-    lateinit var name: String
-    lateinit var dascription: String
-    lateinit var farm: Farm
+class Resource(var id: String,var  name: String,var description: String,
+               var category: String, var  farm: Farm,var  measureUnit: MeasureUnit) {
+    var imgUrl: String = ""
     var totalValue: Double = 0.0
     var totalAmount: Double = 0.0
-    lateinit var measureUnit: MeasureUnit
 }

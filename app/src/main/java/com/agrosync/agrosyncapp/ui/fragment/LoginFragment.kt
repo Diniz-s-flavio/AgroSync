@@ -67,7 +67,7 @@ class LoginFragment : Fragment() {
 //                    navController.navigate(R.id.action_loginFragment_to_homeFragment)
                 }
             } else {
-                Toast.makeText(requireContext(), "Por favor, preencha todos os campos.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Por favor, preencha todos os campos corretamente.", Toast.LENGTH_SHORT).show()
             }
         }
 
