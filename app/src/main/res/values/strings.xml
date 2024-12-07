@@ -34,4 +34,7 @@
     <string name="date">Data</string>
     <string name="edit_transaction">Editar Transação</string>
     <string name="resource_title">Insumos</string>
+    <string name="resource_detail_title">Detalhes do Insumo</string>
+    <string name="add_resource_desc">Adicionar mais quandidade desse Recurso</string>
+    <string name="edit_resource_desc">Editar esse insumo</string>
 </resources>
