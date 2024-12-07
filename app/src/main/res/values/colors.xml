@@ -8,4 +8,5 @@
     <color name="bottom_nav_item_text_color">#000000</color>
     <color name="primaryColor">#56D6FB</color>
     <color name="textPrimaryColor">#1970E2</color>
+    <color name="light_gray_bg">#E9E9E9</color>
 </resources>

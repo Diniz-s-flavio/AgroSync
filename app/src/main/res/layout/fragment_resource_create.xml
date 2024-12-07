@@ -21,6 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:textColor="@color/textPrimaryColor"
             android:textSize="24sp"
+            android:textStyle="bold"
             android:text="@string/newResourceTitle" />
         <LinearLayout
             android:id="@+id/nameContainer"
