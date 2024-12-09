@@ -40,6 +40,8 @@ class FinanceCreateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentFinanceCreateBinding.inflate(inflater, container, false)
+        farmRepository = FarmRepository()
+        userRepository = UserRepository()
         firebaseAuth = FirebaseAuth.getInstance()
         return binding?.root
     }
@@ -48,8 +50,8 @@ class FinanceCreateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         spinnerOperaton = view.findViewById(R.id.spinnerOperations)
         navController = view.findNavController()
-        farmRepository = FarmRepository()
-//        userRepository = UserRepository()
+
+
 
         setupOperationSpinner()
 
@@ -81,7 +83,7 @@ class FinanceCreateFragment : Fragment() {
                             financeRepository.create(finance, onSuccess = {
                                 response ->
                                 if (response != ""){
-                                    Toast.makeText(requireContext(), "Financia Salva Com Sucesso", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(requireContext(), "Financia salvada com sucesso", Toast.LENGTH_SHORT).show()
                                     navController.navigate(R.id.action_resourceCreateFragment_to_inventoryFragment)
                                 }else
                                     Toast.makeText(requireContext(), "Erro ao criar financia", Toast.LENGTH_SHORT).show()
