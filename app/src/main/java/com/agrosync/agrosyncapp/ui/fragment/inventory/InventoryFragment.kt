@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -20,10 +21,14 @@ import com.agrosync.agrosyncapp.data.repository.FarmRepository
 import com.agrosync.agrosyncapp.data.repository.ResourceRepository
 import com.agrosync.agrosyncapp.databinding.FragmentInventoryBinding
 import com.agrosync.agrosyncapp.ui.adapter.ResourceAdapter
+import com.agrosync.agrosyncapp.viewModel.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class InventoryFragment : Fragment() {
+    private val mainViewModel: MainViewModel by activityViewModels{
+        MainViewModel.Factory
+    }
     private lateinit var recyclerView: RecyclerView
     private var resourceList: List<Resource>? = emptyList()
     private lateinit var adapter: ResourceAdapter
@@ -80,9 +85,8 @@ class InventoryFragment : Fragment() {
                 val resource = resourceList?.getOrNull(position)?: return
                 Log.d(TAG, "Clicou no item ${resource.name}")
 
-                val bundle = Bundle()
-                bundle.putBundle("resource", resource.toBundle())
-                navController.navigate(R.id.action_inventoryFragment_to_resourceDetailFragment, bundle)
+                mainViewModel.refResource = resource
+                navController.navigate(R.id.action_inventoryFragment_to_resourceDetailFragment)
             }
         }
     }

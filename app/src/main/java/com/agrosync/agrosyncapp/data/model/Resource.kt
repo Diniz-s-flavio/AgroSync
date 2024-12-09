@@ -1,6 +1,8 @@
 package com.agrosync.agrosyncapp.data.model
 
 import android.os.Bundle
+import java.util.Locale
+import java.text.NumberFormat
 
 class Resource() {
     var id: String = ""
@@ -45,23 +47,8 @@ class Resource() {
         return bundle
     }
 
-    companion object {
-        fun fromBundle(bundle: Bundle): Resource{
-            val resource = Resource()
-            resource.id = bundle.getString("id") ?: ""
-            resource.name = bundle.getString("name") ?: ""
-            resource.description = bundle.getString("description") ?: ""
-            resource.category = bundle.getString("category") ?: ""
-            resource.measureUnit = bundle.getString("measureUnit")?.let { MeasureUnit.valueOf(it) } ?: MeasureUnit.KG
-            resource.imgUrl = bundle.getString("imgUrl") ?: ""
-            resource.totalValue = bundle.getDouble("totalValue", 0.0)
-            resource.totalAmount = bundle.getDouble("totalAmount", 0.0)
-
-            bundle.getBundle("farm")?.let {
-                resource.farm = Farm.fromBundle(it) // Supondo que Farm também tenha um método `fromBundle`
-            }
-
-            return resource
-        }
+    fun formatToCurrency(): String {
+        val format = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
+        return format.format(totalValue)
     }
 }

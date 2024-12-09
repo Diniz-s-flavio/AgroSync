@@ -22,18 +22,4 @@ class Farm() {
 
         return bundle
     }
-
-    companion object {
-        fun fromBundle(bundle: Bundle): Farm? {
-            val farm = Farm()
-            farm.id = bundle.getString("id")
-            farm.name = bundle.getString("name")
-
-            bundle.getBundle("owner")?.let {
-                farm.owner = User.fromBundle(it) // Supondo que User também tenha um `fromBundle`
-            }
-
-            return farm
-        }
-    }
 }
