@@ -92,6 +92,7 @@ class FinancialFragment : Fragment() {
     private fun updateFinanceList(finances: List<Finance>) {
         financeAdapter = FinanceAdapter(finances)
         binding?.financiaRecyclerView?.adapter = financeAdapter
+        financeAdapter.notifyDataSetChanged()
 
         if (finances.isEmpty()) {
             binding?.financiaRecyclerView?.visibility = View.GONE
