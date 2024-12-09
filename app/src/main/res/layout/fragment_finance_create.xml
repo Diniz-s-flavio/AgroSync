@@ -214,6 +214,5 @@
                 android:textSize="26sp"
                 android:layout_gravity="center|end"/>
         </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
