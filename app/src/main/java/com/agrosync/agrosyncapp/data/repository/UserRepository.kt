@@ -58,8 +58,10 @@ class UserRepository {
             .get()
             .await()
 
-
          if (!result.isEmpty) {
+//             result.documents[0].toObject(User::class.java)?.ownedFarms = farmRepository
+//                 .findByOwnerId(result.documents[0].id)
+
              return result.documents[0].toObject(User::class.java)
          } else {
              Log.e("HomeFragment", "Erro ao buscar o Fazenda")
