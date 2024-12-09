@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.data.model.MeasureUnit
@@ -65,6 +66,8 @@ class ResourceCreateFragment : Fragment() {
         btnSave = binding.btnSave
         btnCancel = binding.btnCancel
 
+        navController = view.findNavController()
+
         setupCategoriesSpinner()
         setupMeasureUnitSpinner()
 
@@ -85,22 +88,23 @@ class ResourceCreateFragment : Fragment() {
                             farm,
                             selectedMeasureUnit
                         )
+                        resource.totalAmount = 0.0
+                        resource.totalValue = 0.0
                     resourceRepository.create(resource,
                         onSuccess = {
                             response ->
                             if (response != ""){
                                 Toast.makeText(requireContext(), "Insumo Salvo Com Sucesso", Toast.LENGTH_SHORT).show()
+                                navController.navigate(R.id.action_resourceCreateFragment_to_inventoryFragment)
                             }else
                                 Toast.makeText(requireContext(), "Erro ao criar recurso", Toast.LENGTH_SHORT).show()
                         })
                     }
             })
 
-
-
         }
         btnCancel.setOnClickListener{
-            findNavController().navigate(R.id.action_resourceCreateFragment_to_homeFragment)
+            navController.navigate(R.id.action_resourceCreateFragment_to_inventoryFragment)
         }
     }
 
