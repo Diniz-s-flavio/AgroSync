@@ -3,17 +3,16 @@ package com.agrosync.agrosyncapp.data.model
 import java.util.Date
 
 class Finance() {
-    var id: String = ""
-    var resource: Resource? = null
-    var farm: Farm? = null
-    var user: User? = null
-    var title: String = ""
-    var operation: Operation? = null
+    lateinit var id: String
+    lateinit var resource: Resource
+    lateinit var farm: Farm
+    lateinit var user: User
+    lateinit var title: String
+    lateinit var operation: Operation
     var value: Double = 0.0
-    var description: String = ""
+    lateinit var description: String
     var date: Date = Date()
     var isFromResource: Boolean = false
-
 
     public constructor(id: String, user: User, farm: Farm, title: String, description: String,
                        value: Double, operation: Operation, date: Date, isFromResource: Boolean) : this(){
