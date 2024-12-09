@@ -48,25 +48,27 @@ class UserRepository {
                 }
             }
             .addOnFailureListener { e ->
-                Log.e("HomeFragment", "Erro ao buscar o usuário", e)
+                Log.e(TAG, "Erro ao buscar o usuário: ${e.message}", e)
                 onSuccess(null)
             }
     }
 
-     suspend fun findById(uid: String):User? {
-        val result = db.collection("user").whereEqualTo("id",uid)
+    suspend fun findById(uid: String): User? {
+        val result = db.collection("user")
+            .whereEqualTo("id", uid)
             .get()
             .await()
 
-         if (!result.isEmpty) {
-//             result.documents[0].toObject(User::class.java)?.ownedFarms = farmRepository
-//                 .findByOwnerId(result.documents[0].id)
-
-             return result.documents[0].toObject(User::class.java)
-         } else {
-             Log.e("HomeFragment", "Erro ao buscar o Fazenda")
-             return null
-         }
+        if (!result.isEmpty) {
+            val user = result.documents[0].toObject(User::class.java)
+            if (user != null) {
+                Log.d(TAG, "Usuário encontrado: ${user.firstName}")
+            }
+            return user
+        } else {
+            Log.e(TAG, "Usuário não encontrado")
+            return null
+        }
     }
 
     companion object {

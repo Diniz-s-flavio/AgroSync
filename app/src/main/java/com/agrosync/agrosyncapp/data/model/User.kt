@@ -1,9 +1,5 @@
 package com.agrosync.agrosyncapp.data.model
 
-import com.google.firebase.firestore.Exclude
-import com.google.firebase.firestore.IgnoreExtraProperties
-
-
 class User() {
     var id: String = ""
     var firstName: String = ""
@@ -11,9 +7,17 @@ class User() {
     var email: String = ""
     var role: UserRole = UserRole.OWNER
     lateinit var password: String
-    var ownedFarms: Farm? = null
-    lateinit var managerFarms: List<Farm>
-    constructor(id: String, firstName: String, lastName: String, email: String, role: UserRole) : this() {
+    var ownedFarms: String? = null // Alterado para armazenar o ID da fazenda como string
+    var managerFarms: List<String> =
+        emptyList() // Alterado para armazenar IDs como lista de strings
+
+    constructor(
+        id: String,
+        firstName: String,
+        lastName: String,
+        email: String,
+        role: UserRole
+    ) : this() {
         this.id = id
         this.firstName = firstName
         this.lastName = lastName
