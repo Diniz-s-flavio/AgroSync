@@ -77,10 +77,12 @@ class InventoryFragment : Fragment() {
         return object : ResourceAdapter.ResourceClickListener{
             @SuppressLint("RestrictedApi")
             override fun onItemClick(holder: ResourceAdapter.ResourceViewHolder, position: Int) {
-                Log.d(TAG, "Clicou no item $position")
                 val resource = resourceList?.getOrNull(position)?: return
                 Log.d(TAG, "Clicou no item ${resource.name}")
-                Toast.makeText(requireContext(), "Clicou no item ${resource.name}", Toast.LENGTH_SHORT).show()
+
+                val bundle = Bundle()
+                bundle.putBundle("resource", resource.toBundle())
+                navController.navigate(R.id.action_inventoryFragment_to_resourceDetailFragment, bundle)
             }
         }
     }
