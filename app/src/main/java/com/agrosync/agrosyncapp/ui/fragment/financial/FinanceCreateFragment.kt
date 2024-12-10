@@ -1,5 +1,6 @@
 package com.agrosync.agrosyncapp.ui.fragment.financial
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,7 +22,10 @@ import com.agrosync.agrosyncapp.data.repository.UserRepository
 import com.agrosync.agrosyncapp.databinding.FragmentFinanceCreateBinding
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 class FinanceCreateFragment : Fragment() {
 
@@ -34,6 +38,7 @@ class FinanceCreateFragment : Fragment() {
     private lateinit var farmRepository: FarmRepository
     private lateinit var userRepository: UserRepository
     private lateinit var financeRepository: FinanceRepository
+    private val calendar = Calendar.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,54 +56,45 @@ class FinanceCreateFragment : Fragment() {
         spinnerOperaton = view.findViewById(R.id.spinnerOperations)
         navController = view.findNavController()
 
-
         financeRepository = FinanceRepository()
         setupOperationSpinner()
+        setupDatePicker()
 
         binding?.btnSave?.setOnClickListener{
-            val title = binding?.etName?.text.toString()
-            val value = binding?.etValue?.text.toString()
-            val description = binding?.etDescription?.text.toString()
-            val date = binding?.etDate?.text.toString()
-
-            val userUid = firebaseAuth.currentUser?.uid
-            if (userUid != null)
-                farmRepository.findByOwnerId(userUid, onSuccess = {farm ->
-                    if (farm != null) {
-                        lifecycleScope.launch {
-                             val user = userRepository.findById(userUid);
-
-                            val finance = Finance(
-                                "",
-                                user!!,
-                                farm,
-                                title,
-                                description,
-                                value.toDouble(),
-                                selectedOperation,
-                                Date(),
-                                isFromResource = false
-                            )
-
-                            financeRepository.create(finance, onSuccess = {
-                                response ->
-                                if (response != ""){
-                                    Toast.makeText(requireContext(), "Financia salvada com sucesso", Toast.LENGTH_SHORT).show()
-                                    navController.navigate(R.id.action_finance_create_fragment_to_financialFragment)
-                                }else
-                                    Toast.makeText(requireContext(), "Erro ao criar financia", Toast.LENGTH_SHORT).show()
-                            })
-                        }
-
-
-                    }
-                })
+            saveFinance()
         }
 
         binding?.btnCancel?.setOnClickListener{
             navController.navigate(R.id.action_finance_create_fragment_to_financialFragment)
         }
+    }
 
+    private fun setupDatePicker() {
+        binding?.etDate?.setOnClickListener {
+            showDatePickerDialog()
+        }
+    }
+
+    private fun showDatePickerDialog() {
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            { _, year, monthOfYear, dayOfMonth ->
+                calendar.set(Calendar.YEAR, year)
+                calendar.set(Calendar.MONTH, monthOfYear)
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                updateDateInView()
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+        datePickerDialog.show()
+    }
+
+    private fun updateDateInView() {
+        val myFormat = "dd/MM/yyyy"
+        val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
+        binding?.etDate?.setText(sdf.format(calendar.time))
     }
 
     private fun setupOperationSpinner() {
@@ -128,19 +124,53 @@ class FinanceCreateFragment : Fragment() {
     private fun saveFinance() {
         // Obtendo os valores dos campos
         val title = binding?.etName?.text.toString()
-        val operation = binding?.spinnerOperations?.selectedItem.toString()
         val value = binding?.etValue?.text.toString()
         val description = binding?.etDescription?.text.toString()
-        val date = binding?.etDate?.text.toString()
+        val dateString = binding?.etDate?.text.toString()
 
         // Validando os campos
-        if (title.isEmpty() || value.isEmpty() || date.isEmpty()) {
+        if (title.isEmpty() || value.isEmpty() || dateString.isEmpty()) {
             Toast.makeText(requireContext(), "Preencha todos os campos obrigatórios!", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Aqui você pode salvar os dados no banco ou enviar para uma API
-        Toast.makeText(requireContext(), "Financia cadastrada com sucesso!", Toast.LENGTH_SHORT).show()
+        val userUid = firebaseAuth.currentUser?.uid
+        if (userUid != null)
+            farmRepository.findByOwnerId(userUid, onSuccess = {farm ->
+                if (farm != null) {
+                    lifecycleScope.launch {
+                        val user = userRepository.findById(userUid)
+
+                        // Parse the date
+                        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                        val parsedDate = sdf.parse(dateString) ?: Date()
+
+                        val finance = Finance(
+                            "",
+                            user!!,
+                            farm,
+                            title,
+                            description,
+                            value.toDouble(),
+                            selectedOperation,
+                            parsedDate,
+                            isFromResource = false
+                        )
+
+                        financeRepository.create(finance, onSuccess = { response ->
+                            if (response.isNotEmpty()){
+                                Toast.makeText(requireContext(), "Financia salvada com sucesso", Toast.LENGTH_SHORT).show()
+                                navController.navigate(R.id.action_finance_create_fragment_to_financialFragment)
+                            } else
+                                Toast.makeText(requireContext(), "Erro ao criar financia", Toast.LENGTH_SHORT).show()
+                        })
+                    }
+                }
+            })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
 }
