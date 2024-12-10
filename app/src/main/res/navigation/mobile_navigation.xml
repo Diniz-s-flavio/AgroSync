@@ -15,7 +15,23 @@
         <action
             android:id="@+id/action_homeFragment_to_inventoryFragment"
             app:destination="@id/inventoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileEditFragment"
+            app:destination="@id/profileEditFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/profileEditFragment"
+        android:name="com.agrosync.agrosyncapp.ui.fragment.ProfileEditFragment"
+        android:label="Editar Perfil">
+        <action
+            android:id="@+id/action_profileEditFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+
     <fragment
         android:id="@+id/resourceCreateFragment"
         android:name="com.agrosync.agrosyncapp.ui.fragment.inventory.ResourceCreateFragment"

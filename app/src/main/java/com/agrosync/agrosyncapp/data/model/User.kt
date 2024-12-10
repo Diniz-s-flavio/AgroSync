@@ -7,9 +7,8 @@ class User() {
     var email: String = ""
     var role: UserRole = UserRole.OWNER
     lateinit var password: String
-    var ownedFarms: String? = null // Alterado para armazenar o ID da fazenda como string
-    var managerFarms: List<String> =
-        emptyList() // Alterado para armazenar IDs como lista de strings
+    var ownedFarms: String? = null
+    var managerFarms: List<String> = emptyList()
 
     constructor(
         id: String,
