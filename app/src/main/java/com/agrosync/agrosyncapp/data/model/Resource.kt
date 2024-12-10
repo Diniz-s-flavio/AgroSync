@@ -29,6 +29,11 @@ class Resource() {
             this.farm = farm
             this.measureUnit = measureUnit
         }
+
+    override fun toString(): String {
+        return "Resource(id='$id', name='$name', description='$description', category='$category', farm=$farm, measureUnit=$measureUnit, imgUrl='$imgUrl', totalValue=$totalValue, totalAmount=$totalAmount)"
+    }
+
     fun toBundle(): Bundle {
         val bundle = Bundle()
         bundle.putString("id", id)
@@ -41,7 +46,7 @@ class Resource() {
         bundle.putDouble("totalAmount", totalAmount)
 
         farm?.let {
-            bundle.putBundle("farm", it.toBundle()) // Supondo que Farm também tenha um método toBundle()
+            bundle.putBundle("farm", it.toBundle())
         }
 
         return bundle
@@ -50,5 +55,28 @@ class Resource() {
     fun formatToCurrency(): String {
         val format = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
         return format.format(totalValue)
+    }
+
+    fun calcResourceNewAmount(operation: ResourceOperation, movementAmount: Double) {
+        if (operation == ResourceOperation.WITHDRAWAL || operation == ResourceOperation.SELL){
+            if (this.totalAmount < movementAmount){
+                this.totalAmount = 0.0
+            }else this.totalAmount -= movementAmount
+        } else {
+            this.totalAmount += movementAmount
+
+        }
+    }
+
+    fun calcResourceNewTotalValue(operation: ResourceOperation, movementValue: Double) {
+        if (operation == ResourceOperation.WITHDRAWAL || operation == ResourceOperation.SELL){
+            this.totalValue -= movementValue
+        } else {
+            this.totalValue += movementValue
+        }
+
+        if (totalAmount == 0.0){
+            this.totalValue = 0.0
+        }
     }
 }

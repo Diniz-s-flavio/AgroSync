@@ -38,7 +38,7 @@ class FinanceCreateFragment : Fragment() {
     private lateinit var farmRepository: FarmRepository
     private lateinit var userRepository: UserRepository
     private lateinit var financeRepository: FinanceRepository
-    private val calendar = Calendar.getInstance()
+    private var calendar = Calendar.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,6 +70,8 @@ class FinanceCreateFragment : Fragment() {
     }
 
     private fun setupDatePicker() {
+        calendar = Calendar.getInstance() // Obtém a data atual
+        updateDateInView()
         binding?.etDate?.setOnClickListener {
             showDatePickerDialog()
         }

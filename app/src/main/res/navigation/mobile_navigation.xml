@@ -78,5 +78,17 @@
         <action
             android:id="@+id/action_resourceDetailFragment_to_resourceCreateFragment"
             app:destination="@id/resourceCreateFragment" />
+        <action
+            android:id="@+id/action_resourceDetailFragment_to_addResourceFragment"
+            app:destination="@id/addResourceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addResourceFragment"
+        android:name="com.agrosync.agrosyncapp.ui.fragment.inventory.AddResourceFragment"
+        android:label="fragment_add_resource"
+        tools:layout="@layout/fragment_add_resource" >
+        <action
+            android:id="@+id/action_addResourceFragment_to_resourceDetailFragment"
+            app:destination="@id/resourceDetailFragment" />
     </fragment>
 </navigation>
