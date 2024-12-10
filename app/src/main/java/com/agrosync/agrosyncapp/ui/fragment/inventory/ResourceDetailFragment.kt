@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavArgs
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.data.model.Resource
@@ -25,6 +27,7 @@ class ResourceDetailFragment : Fragment() {
     private lateinit var _binding: FragmentResourceDetailBinding
     private val binding get() = _binding
     private lateinit var resource: Resource
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,9 +35,6 @@ class ResourceDetailFragment : Fragment() {
     ): View {
         _binding = FragmentResourceDetailBinding.inflate(inflater, container, false)
         return binding.root
-
-
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -43,13 +43,17 @@ class ResourceDetailFragment : Fragment() {
         val bundle = arguments?.getBundle("resource")
         resource = mainViewModel.refResource
 
+        navController = view.findNavController()
+
         binding.tvResourceDetailTitle.text = resource.name
         binding.edtAmountDisplay.text = resource.totalAmount.toString() + " " + resource.measureUnit.acronym
         binding.edtCostDisplay.text = resource.formatToCurrency()
         binding.edtDescriptionDisplay.text = resource.description
 
         binding.editResourceButton.setOnClickListener{
-
+            val bundle = Bundle()
+            bundle.putBoolean("isEditing", true)
+            navController.navigate(R.id.action_resourceDetailFragment_to_resourceCreateFragment, bundle)
         }
 
     }

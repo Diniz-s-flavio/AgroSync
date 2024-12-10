@@ -65,5 +65,8 @@
         <action
             android:id="@+id/action_resourceDetailFragment_to_inventoryFragment"
             app:destination="@id/inventoryFragment" />
+        <action
+            android:id="@+id/action_resourceDetailFragment_to_resourceCreateFragment"
+            app:destination="@id/resourceCreateFragment" />
     </fragment>
 </navigation>

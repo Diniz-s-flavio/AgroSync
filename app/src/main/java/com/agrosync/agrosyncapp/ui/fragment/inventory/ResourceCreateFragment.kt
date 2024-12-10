@@ -13,18 +13,24 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.data.model.MeasureUnit
 import com.agrosync.agrosyncapp.data.model.Resource
 import com.agrosync.agrosyncapp.data.repository.FarmRepository
 import com.agrosync.agrosyncapp.data.repository.ResourceRepository
 import com.agrosync.agrosyncapp.databinding.FragmentResourceCreateBinding
+import com.agrosync.agrosyncapp.viewModel.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
 
 class ResourceCreateFragment : Fragment() {
+    private val mainViewModel: MainViewModel by activityViewModels{
+        MainViewModel.Factory
+    }
     private var _binding: FragmentResourceCreateBinding? = null
     private val binding get() = _binding!!
     private lateinit var spinnerCategories: Spinner
@@ -59,7 +65,7 @@ class ResourceCreateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        spinnerCategories = view.findViewById(R.id.spinnerOperations)
+        spinnerCategories = view.findViewById(R.id.spinnerCategories)
         spinnerMeasureUnit = view.findViewById(R.id.spinnerMeasureUnit)
         resourceImage = binding.resourceImage
         btnSelectImage = binding.btnSelectImage
@@ -68,6 +74,15 @@ class ResourceCreateFragment : Fragment() {
 
         navController = view.findNavController()
 
+        if (arguments?.getBoolean("isEditing") == true) {
+            val refResource = mainViewModel.refResource
+            binding.tvResourceCreateTitle.text = "Editar Insumo"
+            binding.etName.setText(refResource.name)
+            binding.etDescription.setText(refResource.description)
+//            binding.spinnerCategories.setSelection(resource.category)
+            binding.spinnerMeasureUnit.setSelection(refResource.measureUnit.ordinal)
+            binding.etDescription.setText(refResource.description)
+        }
         setupCategoriesSpinner()
         setupMeasureUnitSpinner()
 
@@ -76,33 +91,67 @@ class ResourceCreateFragment : Fragment() {
             // Abrir o seletor de imagens
             selectImageLauncher.launch("image/*")
         }
+
         btnSave.setOnClickListener{
-            val userUid = firebaseAuth.currentUser?.uid
-            if (userUid != null)
-                farmRepository.findByOwnerId(userUid, onSuccess = {farm ->
+            lifecycleScope.launch {
+                val userUid = firebaseAuth.currentUser?.uid
+                if (userUid != null) {
+                    var farm = farmRepository.findByOwnerId(userUid)
                     if (farm != null) {
-                        var resource: Resource = Resource("",
+                        var resource = Resource(
+                            "",
                             binding.etName.text.toString(),
                             binding.etDescription.text.toString(),
-                            selectedCategory.toString(),
+                            selectedCategory,
                             farm,
                             selectedMeasureUnit
                         )
-                        resource.totalAmount = 0.0
-                        resource.totalValue = 0.0
-                    resourceRepository.create(resource,
-                        onSuccess = {
-                            response ->
-                            if (response != ""){
-                                Toast.makeText(requireContext(), "Insumo Salvo Com Sucesso", Toast.LENGTH_SHORT).show()
-                                navController.navigate(R.id.action_resourceCreateFragment_to_inventoryFragment)
-                            }else
-                                Toast.makeText(requireContext(), "Erro ao criar recurso", Toast.LENGTH_SHORT).show()
-                        })
-                    }
-            })
+                        if(arguments?.getBoolean("isEditing") == true){
+                            resource.id = mainViewModel.refResource.id
+                            resourceRepository.save(resource,
+                                onSuccess = { response ->
+                                    if (response != "") {
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "Insumo Salvo Com Sucesso",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        arguments?.putBoolean("isEditing", false)
+                                        navController.navigate(R.id.action_resourceCreateFragment_to_inventoryFragment)
+                                    } else
+                                        Toast.makeText(
+                                            requireContext(),
 
+                                            "Erro ao criar recurso",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                })
+                        }else{
+                            resource.totalAmount = 0.0
+                            resource.totalValue = 0.0
+                            resourceRepository.save(resource,
+                                onSuccess = { response ->
+                                    if (response != "") {
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "Insumo Salvo Com Sucesso",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        navController.navigate(R.id.action_resourceCreateFragment_to_inventoryFragment)
+                                    } else
+                                        Toast.makeText(
+                                            requireContext(),
+
+                                            "Erro ao criar recurso",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                })
+                        }
+                        }
+                }
+            }
         }
+
         btnCancel.setOnClickListener{
             navController.navigate(R.id.action_resourceCreateFragment_to_inventoryFragment)
         }

@@ -52,25 +52,9 @@ class FarmRepository {
             }
     }
 
-    suspend fun findByOwnerId(uid: String): Farm? {
-        return try {
-            val result = db.collection("farm")
-                .whereEqualTo("ownerId", uid)
-                .get()
-                .await()
-
-            if (!result.isEmpty) {
-                result.documents[0].toObject(Farm::class.java)?.apply {
-                    id = result.documents[0].id
-                }
-            } else {
-                Log.d(TAG, "Nenhuma fazenda encontrada para o proprietário com ID: $uid")
-                null
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Erro ao buscar a fazenda por ownerId: ${e.message}", e)
-            null
-        }
+    suspend fun findByOwnerId(userUid: String): Farm? {
+        val result = db.collection("farm").whereEqualTo("ownerId", userUid).get().await()
+        return result.documents.firstOrNull()?.toObject(Farm::class.java)
     }
 
     companion object {
