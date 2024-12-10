@@ -5,17 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.Toast
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.data.model.Operation
 import com.agrosync.agrosyncapp.data.repository.FinanceRepository
 import com.agrosync.agrosyncapp.databinding.FragmentHomeBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.NumberFormat
@@ -82,7 +75,6 @@ class HomeFragment : Fragment() {
             financeRepository.findByUserId(
                 userId,
                 onSuccess = { finances ->
-                    // Calculate finances for the current month
                     val calendar = Calendar.getInstance()
                     val currentMonth = calendar.get(Calendar.MONTH)
                     val currentYear = calendar.get(Calendar.YEAR)
