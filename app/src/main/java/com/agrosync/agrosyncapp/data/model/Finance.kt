@@ -1,8 +1,9 @@
 package com.agrosync.agrosyncapp.data.model
 
+import java.io.Serializable
 import java.util.Date
 
-class Finance() {
+class Finance() : Serializable {
     lateinit var id: String
     lateinit var resource: Resource
     lateinit var farm: Farm
