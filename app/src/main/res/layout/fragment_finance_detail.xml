@@ -3,12 +3,206 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="75dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.financial.FinanceDetailFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/financeDetailTitleBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:minWidth="160dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/light_gray_bg"
+            android:padding="10dp"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:id="@+id/tvFinanceDetailTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/textPrimaryColor"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text="@string/titulo_da_financia"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/dateDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/financeDetailTitleBackground"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
+                <TextView
+                    android:id="@+id/tvAmounLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/data"
+                    android:textColor="@color/textPrimaryColor"
+                    android:textSize="24sp"
+                    android:layout_marginStart="40dp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="09/12/2024"
+                    android:textColor="@color/textPrimaryColor"
+                    android:textSize="24sp"
+                    android:textAlignment="viewEnd"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="40dp"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/light_gray_bg"
+                android:layout_marginHorizontal="36dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/operationDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dateDisplay"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
+                <TextView
+                    android:id="@+id/tvWeightLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/operation_detail"
+                    android:textColor="@color/textPrimaryColor"
+                    android:textSize="24sp"
+                    android:layout_marginStart="40dp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Entrada"
+                    android:textColor="@color/textPrimaryColor"
+                    android:textSize="24sp"
+                    android:textAlignment="viewEnd"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="40dp"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/light_gray_bg"
+                android:layout_marginHorizontal="36dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/valueDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/operationDisplay"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
+                <TextView
+                    android:id="@+id/tvCostLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Valor:"
+                    android:textColor="@color/textPrimaryColor"
+                    android:textSize="24sp"
+                    android:layout_marginStart="40dp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="R$ 120,00"
+                    android:textColor="@color/textPrimaryColor"
+                    android:textSize="24sp"
+                    android:textAlignment="viewEnd"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="40dp"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/light_gray_bg"
+                android:layout_marginHorizontal="36dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/descriptionDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/valueDisplay"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:id="@+id/tvDescriptionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description_label"
+                android:textColor="@color/textPrimaryColor"
+                android:textSize="24sp"
+                android:layout_marginStart="40dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@color/light_gray_bg"
+                android:layout_marginHorizontal="36dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="bjlkhasdfbsdajkhfbsdalhdbflhsdf bsh sdblkfhbsd lfhsdbkhbb dsafhbhbhbd fdsbhbhbhb dshfbfhvadkjhsbvlfhjbjchdhh bdakbv"
+                    android:textColor="@color/textPrimaryColor"
+                    android:textSize="24sp"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="10dp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/actionContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/descriptionDisplay"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#56D6FB"
+                android:text="Ver Insumo"
+                android:textSize="26sp"
+                android:layout_gravity="center|start"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="115dp"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
