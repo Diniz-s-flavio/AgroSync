@@ -1,13 +1,10 @@
 package com.agrosync.agrosyncapp.ui.fragment
 
-import android.R
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.agrosync.agrosyncapp.data.model.Operation
 import com.agrosync.agrosyncapp.data.repository.FinanceRepository
@@ -27,13 +24,6 @@ class HomeFragment : Fragment() {
     private lateinit var firestore: FirebaseFirestore
     private lateinit var financeRepository: FinanceRepository
 
-    private val months = arrayOf(
-        "Janeiro", "Fevereiro", "Março", "Abril",
-        "Maio", "Junho", "Julho", "Agosto",
-        "Setembro", "Outubro", "Novembro", "Dezembro"
-    )
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,30 +40,7 @@ class HomeFragment : Fragment() {
         financeRepository = FinanceRepository()
 
         loadUserName()
-        setupMonthSpinner()
-    }
-
-    private fun setupMonthSpinner() {
-        val adapter = ArrayAdapter(
-            requireContext(),
-            R.layout.simple_spinner_item,
-            months
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        binding.spinnerPeriodo.adapter = adapter
-
-        val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
-        binding.spinnerPeriodo.setSelection(currentMonth)
-
-        binding.spinnerPeriodo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                loadFinancialData(position)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
+        loadFinancialData()
     }
 
     private fun loadUserName() {
@@ -100,7 +67,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun loadFinancialData(selectedMonthPosition: Int) {
+    private fun loadFinancialData() {
         val currentUser = firebaseAuth.currentUser
         if (currentUser != null) {
             val userId = currentUser.uid
@@ -108,18 +75,16 @@ class HomeFragment : Fragment() {
             financeRepository.findByUserId(
                 userId,
                 onSuccess = { finances ->
-                    // Calculate finances for the selected month
                     val calendar = Calendar.getInstance()
-                    calendar.set(Calendar.MONTH, selectedMonthPosition)
-                    val selectedMonth = selectedMonthPosition
-                    val selectedYear = calendar.get(Calendar.YEAR)
+                    val currentMonth = calendar.get(Calendar.MONTH)
+                    val currentYear = calendar.get(Calendar.YEAR)
 
                     val monthlyFinances = finances.filter { finance ->
                         val financeCalendar = Calendar.getInstance().apply {
                             time = finance.date
                         }
-                        financeCalendar.get(Calendar.MONTH) == selectedMonth &&
-                                financeCalendar.get(Calendar.YEAR) == selectedYear
+                        financeCalendar.get(Calendar.MONTH) == currentMonth &&
+                                financeCalendar.get(Calendar.YEAR) == currentYear
                     }
 
                     val totalEntry = monthlyFinances
@@ -140,9 +105,6 @@ class HomeFragment : Fragment() {
                 },
                 onFailure = { e ->
                     Log.e("HomeFragment", "Erro ao carregar finanças", e)
-                    binding.tvValorTotal.text = "R$ 0,00"
-                    binding.tvValorEntrada.text = "R$ 0,00"
-                    binding.tvValorGasts.text = "R$ 0,00"
                 }
             )
         }
