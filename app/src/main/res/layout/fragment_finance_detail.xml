@@ -56,6 +56,7 @@
                     android:textSize="24sp"
                     android:layout_marginStart="40dp"/>
                 <TextView
+                    android:id="@+id/tvDateLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="09/12/2024"
@@ -93,6 +94,7 @@
                     android:textSize="24sp"
                     android:layout_marginStart="40dp"/>
                 <TextView
+                    android:id="@+id/tvOperationLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Entrada"
@@ -130,6 +132,7 @@
                     android:textSize="24sp"
                     android:layout_marginStart="40dp"/>
                 <TextView
+                    android:id="@+id/tvValorLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="R$ 120,00"
@@ -172,6 +175,7 @@
                 android:layout_weight="1">
 
                 <TextView
+                    android:id="@+id/tvDescricaoLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="bjlkhasdfbsdajkhfbsdalhdbflhsdf bsh sdblkfhbsd lfhsdbkhbb dsafhbhbhbd fdsbhbhbhb dshfbfhvadkjhsbvlfhjbjchdhh bdakbv"

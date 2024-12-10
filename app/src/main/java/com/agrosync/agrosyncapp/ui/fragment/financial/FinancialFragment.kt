@@ -54,7 +54,12 @@ class FinancialFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        financeAdapter = FinanceAdapter(emptyList())
+        financeAdapter = FinanceAdapter(emptyList()) { finance ->
+            val bundle = Bundle()
+            bundle.putSerializable("finance", finance)
+
+            navController.navigate(R.id.action_financialFragment_to_financialDetailFragment, bundle)
+        }
 
         binding?.financiaRecyclerView?.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -90,7 +95,12 @@ class FinancialFragment : Fragment() {
     }
 
     private fun updateFinanceList(finances: List<Finance>) {
-        financeAdapter = FinanceAdapter(finances)
+        financeAdapter = FinanceAdapter(finances) { finance ->
+            val bundle = Bundle()
+            bundle.putSerializable("finance", finance)
+
+            navController.navigate(R.id.action_financialFragment_to_financialDetailFragment, bundle)
+        }
         binding?.financiaRecyclerView?.adapter = financeAdapter
         financeAdapter.notifyDataSetChanged()
 

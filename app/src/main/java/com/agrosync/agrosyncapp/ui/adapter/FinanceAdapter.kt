@@ -13,8 +13,10 @@ import com.agrosync.agrosyncapp.data.model.Operation
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class FinanceAdapter(private val finances: List<Finance>) :
-    RecyclerView.Adapter<FinanceAdapter.FinanceViewHolder>() {
+class FinanceAdapter(
+    private val finances: List<Finance>,
+    private val onItemClick: (Finance) -> Unit // Adiciona o listener de clique
+) : RecyclerView.Adapter<FinanceAdapter.FinanceViewHolder>() {
 
     class FinanceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dataFinancia: TextView = itemView.findViewById(R.id.dataFinancia)
@@ -22,7 +24,7 @@ class FinanceAdapter(private val finances: List<Finance>) :
         val tipoFinancia: TextView = itemView.findViewById(R.id.tipoFinancia)
         val iconeFinancia: ImageView = itemView.findViewById(R.id.iconeFinancia)
 
-        fun bind(finance: Finance) {
+        fun bind(finance: Finance, onItemClick: (Finance) -> Unit) {
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             dataFinancia.text = dateFormat.format(finance.date)
 
@@ -50,6 +52,8 @@ class FinanceAdapter(private val finances: List<Finance>) :
                     iconeFinancia.setImageResource(R.drawable.as_app_icon)
                 }
             }
+
+            itemView.setOnClickListener { onItemClick(finance) }
         }
     }
 
@@ -60,7 +64,7 @@ class FinanceAdapter(private val finances: List<Finance>) :
     }
 
     override fun onBindViewHolder(holder: FinanceViewHolder, position: Int) {
-        holder.bind(finances[position])
+        holder.bind(finances[position], onItemClick)
     }
 
     override fun getItemCount() = finances.size

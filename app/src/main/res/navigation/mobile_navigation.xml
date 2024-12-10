@@ -33,6 +33,16 @@
         <action
             android:id="@+id/action_financialFragment_to_finance_create_fragment"
             app:destination="@id/finance_create_fragment" />
+        <action
+            android:id="@+id/action_financialFragment_to_financialDetailFragment"
+            app:destination="@id/financialDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/financialDetailFragment"
+        android:name="com.agrosync.agrosyncapp.ui.fragment.financial.FinanceDetailFragment"
+        android:label="FinancialDetailFragment"
+        tools:layout="@layout/fragment_finance_detail">
     </fragment>
 
     <fragment
