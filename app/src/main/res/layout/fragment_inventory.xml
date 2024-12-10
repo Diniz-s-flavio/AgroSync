@@ -6,22 +6,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.inventory.InventoryFragment"
     android:layout_marginTop="75dp">
+
     <TextView
         android:id="@+id/tvResourceTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:text="@string/resource_title"
+        android:textAlignment="center"
         android:textColor="@color/textPrimaryColor"
         android:textSize="24sp"
-        android:textAlignment="center"
-        android:text="@string/resource_title"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SearchView
+        android:id="@+id/searchViewResources"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginTop="52dp"
+        android:queryHint="Buscar recursos"
+        app:layout_constraintBottom_toTopOf="@+id/resourceRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.437"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvResourceTitle" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/resourceRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="96dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvResourceTitle"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvResourceTitle" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/createResourceButton"
         android:layout_width="wrap_content"

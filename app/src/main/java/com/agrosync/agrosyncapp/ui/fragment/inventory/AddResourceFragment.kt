@@ -89,7 +89,7 @@ class AddResourceFragment : Fragment() {
         }
 
         binding.btnCancel.setOnClickListener{
-            navController.navigate(R.id.action_finance_create_fragment_to_financialFragment)
+            navController.navigate(R.id.action_addResourceFragment_to_resourceDetailFragment)
         }
     }
 
