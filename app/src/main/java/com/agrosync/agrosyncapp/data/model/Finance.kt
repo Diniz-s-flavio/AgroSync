@@ -5,7 +5,7 @@ import java.util.Date
 
 class Finance() : Serializable {
     lateinit var id: String
-    lateinit var resource: Resource
+    var resource: Resource = Resource()
     lateinit var farm: Farm
     lateinit var user: User
     lateinit var title: String
@@ -26,6 +26,10 @@ class Finance() : Serializable {
         this.operation = operation
         this.date = date
         this.isFromResource = isFromResource
+    }
+
+    override fun toString(): String {
+        return "Finance(id='$id', resource=${resource?.toString() ?: "null"}, farm=$farm, user=$user, title='$title', operation=$operation, value=$value, description='$description', date=$date, isFromResource=$isFromResource)"
     }
 
 }

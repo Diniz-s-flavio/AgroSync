@@ -40,7 +40,6 @@ class ResourceDetailFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val bundle = arguments?.getBundle("resource")
         resource = mainViewModel.refResource
 
         navController = view.findNavController()
@@ -54,6 +53,12 @@ class ResourceDetailFragment : Fragment() {
             val bundle = Bundle()
             bundle.putBoolean("isEditing", true)
             navController.navigate(R.id.action_resourceDetailFragment_to_resourceCreateFragment, bundle)
+        }
+
+        binding.addResourceButton.setOnClickListener{
+            val bundle = Bundle()
+            bundle.putBoolean("isFromResource", true)
+            navController.navigate(R.id.action_resourceDetailFragment_to_addResourceFragment, bundle)
         }
 
     }

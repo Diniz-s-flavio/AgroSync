@@ -10,6 +10,10 @@
     android:layout_marginRight="10dp"
     tools:context=".ui.fragment.financial.FinanceCreateFragment">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.fragment.inventory.ResourceCreateFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -217,4 +221,5 @@
                 android:layout_gravity="center|end"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </FrameLayout>

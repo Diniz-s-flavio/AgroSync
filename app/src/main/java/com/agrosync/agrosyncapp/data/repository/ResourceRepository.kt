@@ -15,6 +15,7 @@ class ResourceRepository {
         resource.id = documentId
         }
 
+        Log.d(TAG, "Salvando os dados: $resource")
 
         val data = hashMapOf(
             "id" to resource.id,

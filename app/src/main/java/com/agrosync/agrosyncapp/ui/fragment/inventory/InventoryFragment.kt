@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.agrosync.agrosyncapp.R
+import com.agrosync.agrosyncapp.data.model.Farm
 import com.agrosync.agrosyncapp.data.model.Resource
 import com.agrosync.agrosyncapp.data.repository.FarmRepository
 import com.agrosync.agrosyncapp.data.repository.ResourceRepository
@@ -61,7 +62,8 @@ class InventoryFragment : Fragment() {
 
         lifecycleScope.launch {
             val farm = auth.currentUser?.let { farmRepository.findByOwnerId(it.uid) }
-            resourceList = farm?.id?.let { resourceRepository.findAllResourceByFarm(it) }
+            mainViewModel.refFarm = farm!!
+            resourceList = farm.id?.let { resourceRepository.findAllResourceByFarm(it) }
             Log.d(TAG, "Resource List: $resourceList")
 
             if (resourceList != null && (resourceList as MutableList<Resource>).isNotEmpty()) {
