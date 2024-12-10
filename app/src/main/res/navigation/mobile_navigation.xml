@@ -8,7 +8,7 @@
         android:id="@+id/homeFragment"
         android:name="com.agrosync.agrosyncapp.ui.fragment.HomeFragment"
         android:label="Home Screen"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_financeiroFragment"
             app:destination="@id/financialFragment" />
@@ -44,11 +44,12 @@
             android:id="@+id/action_finance_create_fragment_to_financialFragment"
             app:destination="@id/financialFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/inventoryFragment"
         android:name="com.agrosync.agrosyncapp.ui.fragment.inventory.InventoryFragment"
         android:label="fragment_inventory"
-        tools:layout="@layout/fragment_inventory" >
+        tools:layout="@layout/fragment_inventory">
         <action
             android:id="@+id/action_inventoryFragment_to_resourceCreateFragment"
             app:destination="@id/resourceCreateFragment" />
@@ -60,7 +61,7 @@
         android:id="@+id/resourceDetailFragment"
         android:name="com.agrosync.agrosyncapp.ui.fragment.inventory.ResourceDetailFragment"
         android:label="fragment_resource_detail"
-        tools:layout="@layout/fragment_resource_detail" >
+        tools:layout="@layout/fragment_resource_detail">
         <action
             android:id="@+id/action_resourceDetailFragment_to_inventoryFragment"
             app:destination="@id/inventoryFragment" />

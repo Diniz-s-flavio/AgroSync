@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_passwordRecoveryFragment"
+            app:destination="@id/passwordRecoveryFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -39,4 +42,10 @@
         android:name="com.agrosync.agrosyncapp.ui.fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/passwordRecoveryFragment"
+        android:name="com.agrosync.agrosyncapp.ui.fragment.PasswordRecoveryFragment"
+        android:label="Recuperação de Senha" />
+
 </navigation>

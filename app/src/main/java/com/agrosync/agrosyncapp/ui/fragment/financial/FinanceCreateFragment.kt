@@ -52,7 +52,7 @@ class FinanceCreateFragment : Fragment() {
         navController = view.findNavController()
 
 
-
+        financeRepository = FinanceRepository()
         setupOperationSpinner()
 
         binding?.btnSave?.setOnClickListener{
@@ -84,7 +84,7 @@ class FinanceCreateFragment : Fragment() {
                                 response ->
                                 if (response != ""){
                                     Toast.makeText(requireContext(), "Financia salvada com sucesso", Toast.LENGTH_SHORT).show()
-                                    navController.navigate(R.id.action_resourceCreateFragment_to_inventoryFragment)
+                                    navController.navigate(R.id.action_finance_create_fragment_to_financialFragment)
                                 }else
                                     Toast.makeText(requireContext(), "Erro ao criar financia", Toast.LENGTH_SHORT).show()
                             })
@@ -93,8 +93,6 @@ class FinanceCreateFragment : Fragment() {
 
                     }
                 })
-
-            navController.navigate(R.id.action_finance_create_fragment_to_financialFragment)
         }
 
         binding?.btnCancel?.setOnClickListener{

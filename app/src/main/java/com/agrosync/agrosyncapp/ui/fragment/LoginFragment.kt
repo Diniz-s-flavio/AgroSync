@@ -75,6 +75,11 @@ class LoginFragment : Fragment() {
             navController.navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
+        binding?.tvRecovery?.setOnClickListener {
+            // Navega para o fragmento de recuperação de senha
+            navController.navigate(R.id.action_loginFragment_to_passwordRecoveryFragment)
+        }
+
     }
 
     override fun onDestroy() {
