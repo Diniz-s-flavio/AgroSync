@@ -37,6 +37,7 @@
     <string name="resource_detail_title">Detalhes do Insumo</string>
     <string name="add_resource_desc">Adicionar mais quandidade desse Recurso</string>
     <string name="edit_resource_desc">Editar esse insumo</string>
+    <string name="cost_label">Custo:</string>
     <string name="titulo_da_financia">Título da Financia</string>
     <string name="data">Data:</string>
     <string name="operation_detail">Operação:</string>

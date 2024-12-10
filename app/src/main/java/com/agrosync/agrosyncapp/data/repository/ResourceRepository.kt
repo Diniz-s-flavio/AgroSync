@@ -8,10 +8,12 @@ import kotlinx.coroutines.tasks.await
 class ResourceRepository {
     private var db = FirebaseFirestore.getInstance()
 
-    fun create(resource: Resource,
-               onSuccess: (String) -> Unit) {
+    fun save(resource: Resource,
+             onSuccess: (String) -> Unit) {
+        if (resource.id.isBlank()) {
         val documentId = db.collection("resource").document().id
         resource.id = documentId
+        }
 
 
         val data = hashMapOf(
@@ -27,11 +29,11 @@ class ResourceRepository {
         }
 
         db.collection("resource")
-            .document(documentId)
+            .document(resource.id)
             .set(data)
             .addOnSuccessListener {
                 Log.d(TAG,"Dados salvos com sucesso!")
-                onSuccess(documentId)
+                onSuccess(resource.id)
             }
             .addOnFailureListener { e ->
                 Log.d(TAG,"Erro ao salvar os dados: ${e.message}")
@@ -54,6 +56,6 @@ class ResourceRepository {
     }
 
     companion object {
-        private const val TAG = "UserRepository"
+        private val TAG = "UserRepository"
     }
 }
