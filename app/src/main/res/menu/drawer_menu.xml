@@ -5,13 +5,7 @@
             android:id="@+id/nav_profile"
             android:title="Perfil" />
         <item
-            android:id="@+id/nav_configs"
-            android:title="Configurações" />
-        <item
-            android:id="@+id/nav_support"
-            android:title="Suporte" />
-        <item
-            android:id="@+id/nav_leave"
+            android:id="@+id/nav_logout"
             android:title="Sair" />
     </group>
 </menu>
