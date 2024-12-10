@@ -158,28 +158,30 @@
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/descriptionContainer"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="20dp"
-            >
+            android:layout_marginTop="20dp">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/date"
                 android:textSize="20sp"
                 android:textColor="#1970E2"/>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                >
+                app:layout_constraintStart_toStartOf="parent">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etDate"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="text"
-                    android:hint="         /          /"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:hint="Selecione a data"
                     android:background="#E9E9E9"
                     android:textColor="@color/black"/>
 
