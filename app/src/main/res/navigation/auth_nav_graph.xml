@@ -36,12 +36,15 @@
         android:id="@+id/mainActivity"
         android:name="com.agrosync.agrosyncapp.ui.activity.MainActivity"
         android:label="activity_main"
-        tools:layout="@layout/activity_main" />
+        tools:layout="@layout/activity_main" >
+    </activity>
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.agrosync.agrosyncapp.ui.fragment.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+    </fragment>
 
     <fragment
         android:id="@+id/passwordRecoveryFragment"

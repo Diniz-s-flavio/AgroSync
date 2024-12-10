@@ -61,6 +61,8 @@ class LoginFragment : Fragment() {
             val email: String = binding?.etEmail?.text.toString()
             val password: String = binding?.etPassword?.text.toString()
 
+            binding!!.loading.visibility = View.VISIBLE
+
             if(email.isNotEmpty() && password.isNotEmpty()) {
                 lifecycleScope.launch {
                     vm.login(email, password)

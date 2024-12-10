@@ -130,7 +130,7 @@ class HomeFragment : Fragment() {
                         .filter { it.operation == Operation.WITHDRAWAL }
                         .sumOf { it.value }
 
-                    val total = totalEntry - totalWithdrawal
+                    val total = totalEntry + totalWithdrawal
 
                     val currencyFormatter = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
 

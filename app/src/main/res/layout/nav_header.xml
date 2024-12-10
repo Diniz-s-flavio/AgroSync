@@ -2,15 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="160dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#56D6FB"
     android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
+        android:id="@+id/nomeUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="NOME DO USUÁRIO"
+        android:paddingTop="30dp"
         android:textColor="@android:color/white"
-        android:textSize="18sp" />
+        android:textSize="24sp" />
 
 </LinearLayout>

@@ -10,7 +10,6 @@ import com.google.firebase.firestore.firestore
 class FinanceRepository {
 
     private var db = Firebase.firestore
-    private val financesCollection = db.collection("finance")
 
     fun create(finance: Finance, onSuccess: (String) -> Unit) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -26,13 +25,16 @@ class FinanceRepository {
         val data = hashMapOf(
             "id" to finance.id,
             "userId" to userId,
-            "farmId" to finance.farm?.id,
+            "farmId" to finance.farm.id,
             "title" to finance.title,
             "operation" to finance.operation,
             "value" to finance.value,
             "description" to finance.description,
             "date" to finance.date
         )
+        if (finance.resource.id.isNotBlank()) {
+            data["resourceId"] = finance.resource.id
+        }
 
         db.collection("finance")
             .document(documentId)
