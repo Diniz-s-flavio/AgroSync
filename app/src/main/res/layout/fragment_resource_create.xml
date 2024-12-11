@@ -161,6 +161,17 @@
                 android:layout_gravity="center"
                 android:background="#E0E0E0"
                 android:scaleType="centerCrop" />
+            <Button
+                android:id="@+id/btnSaveImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="25dp"
+                android:backgroundTint="#56D6FB"
+                android:text="Atualizar Imagem"
+                android:textSize="26sp"
+                android:visibility="gone"
+                android:layout_gravity="center"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/actionContainer"

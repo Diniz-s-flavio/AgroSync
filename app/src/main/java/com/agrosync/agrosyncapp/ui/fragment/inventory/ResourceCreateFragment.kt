@@ -86,6 +86,9 @@ class ResourceCreateFragment : Fragment() {
 
         navController = view.findNavController()
 
+        refResource = mainViewModel.refResource
+        Log.d(TAG, "onViewCreated ref resource img: ${refResource.imgUrl}")
+
         if (arguments?.getBoolean("isEditing") == true) {
             refResource = mainViewModel.refResource
             binding.tvResourceCreateTitle.text = "Editar Insumo"
@@ -100,6 +103,23 @@ class ResourceCreateFragment : Fragment() {
                     .placeholder(R.drawable.resource_img_placeholder)
                     .error(R.drawable.resource_img_placeholder)
                     .into(binding.resourceImage)
+            }
+
+            binding.resourceImage.setOnClickListener{
+                openImagePicker()
+            }
+
+            btnSelectImage.visibility = View.GONE
+
+            binding.btnSaveImage.visibility = View.VISIBLE
+
+            binding.btnSaveImage.setOnClickListener{
+                if (imgUrl.isNotBlank()){
+                    lifecycleScope.launch {
+                        mainViewModel.refResource.imgUrl = imgUrl
+                        imageRepository.uploadImage(imgUrl, refResource.id, "resource")
+                    }
+                }
             }
         }
         setupCategoriesSpinner()
@@ -134,14 +154,14 @@ class ResourceCreateFragment : Fragment() {
                             farm,
                             selectedMeasureUnit
                         )
-                        if (imgUrl.isNotBlank()){
-                            resource.imgUrl = imgUrl
-                        }
+                        Log.d(TAG, "isEditing: ${arguments?.getBoolean("isEditing")}")
                         if(arguments?.getBoolean("isEditing") == true){
+                            Log.d(TAG, "isEditing: True")
+                            refResource = mainViewModel.refResource
                             resource.id = mainViewModel.refResource.id
                             resource.totalAmount = mainViewModel.refResource.totalAmount
                             resource.totalValue = mainViewModel.refResource.totalValue
-                            Log.d(TAG, "IMG do recurso: ${resource.imgUrl}")
+                            resource.imgUrl = refResource.imgUrl
                             resourceRepository.save(resource,
                                 onSuccess = { response ->
                                     if (response != "") {
@@ -151,36 +171,33 @@ class ResourceCreateFragment : Fragment() {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         arguments?.putBoolean("isEditing", false)
-                                        if (resource.imgUrl.isNotBlank()){
-                                            Log.d(TAG, "URL da imagem: ${resource.imgUrl}")
-                                            lifecycleScope.launch {
-                                                imageRepository.uploadImage(resource.imgUrl, resource.id, "resource")
-                                            }
-                                        }
                                         navController.navigate(R.id.action_resourceCreateFragment_to_inventoryFragment)
                                     } else
                                         Toast.makeText(
                                             requireContext(),
-
                                             "Erro ao criar recurso",
                                             Toast.LENGTH_SHORT
                                         ).show()
                                 })
                         }else{
+                            Log.d(TAG, "isEditing: False")
                             resourceRepository.save(resource,
                                 onSuccess = { response ->
                                     if (response != "") {
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "Insumo Salvo Com Sucesso",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        if (imgUrl.isNotBlank()){
+                                            resource.imgUrl = imgUrl
+                                        }
                                         if (resource.imgUrl.isNotBlank()){
                                             Log.d(TAG, "URL da imagem: ${resource.imgUrl}")
                                             lifecycleScope.launch {
                                                 imageRepository.uploadImage(resource.imgUrl, resource.id, "resource")
                                             }
                                         }
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "Insumo Salvo Com Sucesso",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                         navController.navigate(R.id.action_resourceCreateFragment_to_inventoryFragment)
                                     } else
                                         Toast.makeText(
@@ -271,6 +288,5 @@ class ResourceCreateFragment : Fragment() {
 
     companion object {
         private const val TAG = "ResourceCreateFragment"
-        private const val IMAGE_PICK_REQUEST_CODE = 101
     }
 }

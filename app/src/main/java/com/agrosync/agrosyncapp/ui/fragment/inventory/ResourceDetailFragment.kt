@@ -48,6 +48,7 @@ class ResourceDetailFragment : Fragment() {
 
         binding.tvResourceDetailTitle.text = resource.name
         binding.edtAmountDisplay.text = resource.totalAmount.toString() + " " + resource.measureUnit.acronym
+        binding.tvCostLabel.text = if (resource.totalValue<0) "Custo:" else "Lucro:"
         binding.edtCostDisplay.text = resource.formatToCurrency()
         binding.edtDescriptionDisplay.text = resource.description
         binding.tvCategory.text = resource.category.displayName
@@ -58,11 +59,6 @@ class ResourceDetailFragment : Fragment() {
                 .placeholder(R.drawable.resource_img_placeholder)
                 .error(R.drawable.resource_img_placeholder)
                 .into(binding.ivPhotoDisplay)
-
-            val heightInDp = 680
-            val heightInPx = (heightInDp * resources.displayMetrics.density).toInt()
-            binding.ivPhotoDisplay.layoutParams.height = heightInPx
-            binding.ivPhotoDisplay.requestLayout()
         }
 
         binding.editResourceButton.setOnClickListener{
