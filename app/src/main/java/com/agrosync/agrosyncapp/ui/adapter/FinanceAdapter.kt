@@ -19,10 +19,10 @@ class FinanceAdapter(
 ) : RecyclerView.Adapter<FinanceAdapter.FinanceViewHolder>() {
 
     class FinanceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val dataFinancia: TextView = itemView.findViewById(R.id.dataFinancia)
-        val valorFinancia: TextView = itemView.findViewById(R.id.valorFinancia)
-        val tipoFinancia: TextView = itemView.findViewById(R.id.tipoFinancia)
-        val iconeFinancia: ImageView = itemView.findViewById(R.id.iconeFinancia)
+        val dataFinancia: TextView = itemView.findViewById(R.id.dateFinance)
+        val valorFinancia: TextView = itemView.findViewById(R.id.valueFinance)
+        val tipoFinancia: TextView = itemView.findViewById(R.id.financeType)
+        val iconeFinancia: ImageView = itemView.findViewById(R.id.financeIcon)
 
         fun bind(finance: Finance, onItemClick: (Finance) -> Unit) {
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())

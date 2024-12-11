@@ -204,33 +204,26 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="60dp"
                     />
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ivPhotoDisplay"/>
-
-                <LinearLayout
-                    android:id="@+id/actionContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@id/ivPhotoDisplay"
-                    app:layout_constraintStart_toStartOf="parent">
 
                     <Button
                         android:id="@+id/btnHistorico"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:backgroundTint="#56D6FB"
                         android:text="Histórico"
                         android:textSize="26sp"
-                        android:layout_gravity="center|start"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginStart="115dp"/>
-                </LinearLayout>
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ivPhotoDisplay"/>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnHistorico"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
         <com.google.android.material.floatingactionbutton.FloatingActionButton

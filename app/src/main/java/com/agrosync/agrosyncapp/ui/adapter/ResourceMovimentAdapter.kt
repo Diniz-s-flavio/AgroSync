@@ -3,7 +3,6 @@ package com.agrosync.agrosyncapp.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.agrosync.agrosyncapp.R
@@ -17,9 +16,9 @@ class ResourceMovimentAdapter (
 ) : RecyclerView.Adapter<ResourceMovimentAdapter.ResourceMovimentViewHolder>() {
 
     class ResourceMovimentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val dataResourceMovement: TextView = itemView.findViewById(R.id.dataResourceMovement)
-        val valorResourceMovement: TextView = itemView.findViewById(R.id.valorResourceMovement)
-        val tipoResourceMovement: TextView = itemView.findViewById(R.id.tipoResourceMovement)
+        val dataResourceMovement: TextView = itemView.findViewById(R.id.dateResourceMovement)
+        val valorResourceMovement: TextView = itemView.findViewById(R.id.valueResourceMovement)
+        val tipoResourceMovement: TextView = itemView.findViewById(R.id.typeResourceMovement)
 
         fun bind(resourceMovement: ResourceMovement, onItemClick: (ResourceMovement) -> Unit) {
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
