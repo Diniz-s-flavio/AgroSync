@@ -51,6 +51,14 @@ class AuthViewModel(private val db: AuthenticationFirebaseRepository): ViewModel
         }
     }
 
+    fun isLoggedIn(){
+        viewModelScope.launch {
+            if (db.isLoggedIn()){
+            _authUiState.value =  LoginUiState.SUCCESS
+            }
+        }
+    }
+
 
     @Suppress("UNCHECKED_CAST")
     companion object {

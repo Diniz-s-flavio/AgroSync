@@ -16,7 +16,6 @@ object BitmapUtils {
 
     fun decodeFileToBitmap(filePath: String, context: Context): Bitmap? {
         return try {
-            // Usa o ContentResolver para acessar o conteúdo do URI
             context.contentResolver.openInputStream(Uri.parse(filePath)).use { inputStream ->
                 BitmapFactory.decodeStream(inputStream)
             }

@@ -2,8 +2,6 @@ package com.agrosync.agrosyncapp.ui.fragment.inventory
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +13,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -58,6 +57,7 @@ class ResourceCreateFragment : Fragment() {
     private lateinit var imageRepository: ImageRepository
     private var imgUrl: String = ""
     private lateinit var refResource: Resource
+    private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
 
 
     override fun onCreateView(
@@ -105,6 +105,15 @@ class ResourceCreateFragment : Fragment() {
         setupCategoriesSpinner()
         setupMeasureUnitSpinner()
 
+        imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.data?.let { uri ->
+                    imgUrl = uri.toString()
+                    binding.resourceImage.setImageURI(uri)
+                }
+            }
+        }
+
         //Image Upload
         btnSelectImage.setOnClickListener {
             // Abrir o seletor de imagens
@@ -114,6 +123,7 @@ class ResourceCreateFragment : Fragment() {
         btnSave.setOnClickListener{
             lifecycleScope.launch {
                 val userUid = firebaseAuth.currentUser?.uid
+                var saved = false
                 if (userUid != null) {
                     var farm = farmRepository.findByOwnerId(userUid)
                     if (farm != null) {
@@ -130,6 +140,7 @@ class ResourceCreateFragment : Fragment() {
                         }
                         if(arguments?.getBoolean("isEditing") == true){
                             resource.id = mainViewModel.refResource.id
+                            Log.d(TAG, "IMG do recurso: ${resource.imgUrl}")
                             resourceRepository.save(resource,
                                 onSuccess = { response ->
                                     if (response != "") {
@@ -143,6 +154,7 @@ class ResourceCreateFragment : Fragment() {
                                             Log.d(TAG, "URL da imagem: ${resource.imgUrl}")
                                             lifecycleScope.launch {
                                                 imageRepository.uploadImage(resource.imgUrl, resource.id, "resource")
+                                                saved = true
                                             }
                                         }
                                         navController.navigate(R.id.action_resourceCreateFragment_to_inventoryFragment)
@@ -155,8 +167,6 @@ class ResourceCreateFragment : Fragment() {
                                         ).show()
                                 })
                         }else{
-                            resource.totalAmount = 0.0
-                            resource.totalValue = 0.0
                             resourceRepository.save(resource,
                                 onSuccess = { response ->
                                     if (response != "") {
@@ -180,6 +190,7 @@ class ResourceCreateFragment : Fragment() {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                 })
+                            saved = true
                         }
                         }
                 }
@@ -251,17 +262,7 @@ class ResourceCreateFragment : Fragment() {
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
             type = "image/*"
         }
-        startActivityForResult(intent, IMAGE_PICK_REQUEST_CODE)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IMAGE_PICK_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            data?.data?.let { uri ->
-                imgUrl = uri.toString()
-                binding.resourceImage.setImageURI(uri)
-            }
-        }
+        imagePickerLauncher.launch(intent)
     }
 
     override fun onDestroyView() {

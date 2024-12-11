@@ -1,6 +1,7 @@
 package com.agrosync.agrosyncapp.data.repository
 
 import android.content.Context
+import android.util.Log
 import com.agrosync.agrosyncapp.util.BitmapUtils
 import com.cloudinary.Cloudinary
 import com.cloudinary.utils.ObjectUtils
@@ -26,6 +27,7 @@ class ImageRepository(
         documentId: String,
         collectionName: String
     ): String? {
+        Log.d(TAG, "uploadImage path entru________________________________: $imagePath")
         return withContext(Dispatchers.IO) {
             try {
                 val originalBitmap = BitmapUtils.decodeFileToBitmap(imagePath, context)
@@ -53,14 +55,18 @@ class ImageRepository(
     }
 
     private suspend fun saveImageUrlToFirestore(collectionName: String, documentId: String, imageUrl: String) {
+        Log.d(TAG, "saveImageUrlToFirestore: $imageUrl")
         withContext(Dispatchers.IO) {
             try {
                 db.collection(collectionName)
                     .document(documentId)
-                    .update("imageURL", imageUrl)
+                    .update("imgUrl", imageUrl)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
+    }
+    companion object{
+        private const val TAG = "ImageRepository"
     }
 }
