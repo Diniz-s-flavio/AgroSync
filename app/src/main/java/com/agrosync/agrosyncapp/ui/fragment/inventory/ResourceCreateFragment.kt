@@ -30,6 +30,7 @@ import com.agrosync.agrosyncapp.data.repository.ImageRepository
 import com.agrosync.agrosyncapp.data.repository.ResourceRepository
 import com.agrosync.agrosyncapp.databinding.FragmentResourceCreateBinding
 import com.agrosync.agrosyncapp.viewModel.MainViewModel
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -56,6 +57,7 @@ class ResourceCreateFragment : Fragment() {
     private lateinit var farmRepository: FarmRepository
     private lateinit var imageRepository: ImageRepository
     private var imgUrl: String = ""
+    private lateinit var refResource: Resource
 
 
     override fun onCreateView(
@@ -85,13 +87,20 @@ class ResourceCreateFragment : Fragment() {
         navController = view.findNavController()
 
         if (arguments?.getBoolean("isEditing") == true) {
-            val refResource = mainViewModel.refResource
+            refResource = mainViewModel.refResource
             binding.tvResourceCreateTitle.text = "Editar Insumo"
             binding.etName.setText(refResource.name)
             binding.etDescription.setText(refResource.description)
-//            binding.spinnerCategories.setSelection(resource.category)
+            binding.spinnerCategories.setSelection(refResource.category.ordinal)
             binding.spinnerMeasureUnit.setSelection(refResource.measureUnit.ordinal)
             binding.etDescription.setText(refResource.description)
+            if (refResource.imgUrl.isNotBlank()){
+                Glide.with(binding.resourceImage.context)
+                    .load(refResource.imgUrl)
+                    .placeholder(R.drawable.resource_img_placeholder)
+                    .error(R.drawable.resource_img_placeholder)
+                    .into(binding.resourceImage)
+            }
         }
         setupCategoriesSpinner()
         setupMeasureUnitSpinner()
@@ -191,6 +200,12 @@ class ResourceCreateFragment : Fragment() {
         spinnerMeasureUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerMeasureUnit.adapter = spinnerMeasureUnitAdapter
 
+        if (arguments?.getBoolean("isEditing") == true) {
+            val defaultCategory = refResource.measureUnit
+            val defaultPosition = mUnits.indexOf(defaultCategory.displayName)
+            spinnerMeasureUnit.setSelection(defaultPosition)
+        }
+
         spinnerMeasureUnit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parentView: AdapterView<*>,
@@ -199,8 +214,6 @@ class ResourceCreateFragment : Fragment() {
                 id: Long
             ) {
                 selectedMeasureUnit = MeasureUnit.entries[position]
-                Toast.makeText(requireContext(), "Selecionado: $selectedMeasureUnit", Toast.LENGTH_SHORT)
-                    .show()
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>) {}
@@ -214,6 +227,12 @@ class ResourceCreateFragment : Fragment() {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerCategories.adapter = spinnerAdapter
 
+        if (arguments?.getBoolean("isEditing") == true) {
+            val defaultCategory = refResource.category
+            val defaultPosition = categories.indexOf(defaultCategory.displayName)
+            spinnerCategories.setSelection(defaultPosition)
+        }
+
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parentView: AdapterView<*>,
@@ -222,11 +241,6 @@ class ResourceCreateFragment : Fragment() {
                 id: Long
             ) {
                 selectedCategory = ResourceCategory.entries.first { it.displayName == categories[position] }
-                Toast.makeText(
-                    requireContext(),
-                    "Selecionado: ${categories[position]}",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>) {}
