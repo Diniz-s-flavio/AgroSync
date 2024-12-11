@@ -125,13 +125,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp">
+
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
                     android:text="Quantidade Anterior:"
                     android:textColor="@color/textPrimaryColor"
-                    android:textSize="24sp"
-                    android:layout_marginStart="40dp"/>
+                    android:textSize="24sp" />
                 <TextView
                     android:id="@+id/tvAmountOldValueLabel"
                     android:layout_width="0dp"
@@ -162,9 +163,9 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="155dp"
                     android:layout_height="wrap_content"
-                    android:text="Quantidade Movimentada:"
+                    android:text="Quantidade  Movimentada:"
                     android:textColor="@color/textPrimaryColor"
                     android:textSize="24sp"
                     android:layout_marginStart="40dp"/>
@@ -197,14 +198,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp">
+
                 <TextView
                     android:id="@+id/tvCostLabel"
-                    android:layout_width="wrap_content"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
                     android:text="Quantidade Atual:"
                     android:textColor="@color/textPrimaryColor"
-                    android:textSize="24sp"
-                    android:layout_marginStart="40dp"/>
+                    android:textSize="24sp" />
                 <TextView
                     android:id="@+id/tvAmountNewValueLabel"
                     android:layout_width="0dp"

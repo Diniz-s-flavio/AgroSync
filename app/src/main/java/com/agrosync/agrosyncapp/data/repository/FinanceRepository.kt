@@ -67,6 +67,20 @@ class FinanceRepository {
             }
     }
 
+    fun deleteFinance(financeId: String, onResult: (Boolean) -> Unit) {
+        db.collection("finance")
+            .document(financeId)
+            .delete()
+            .addOnSuccessListener {
+                Log.d(TAG, "Item deletado com sucesso!")
+                onResult(true)
+            }
+            .addOnFailureListener { e ->
+                Log.d(TAG, "Erro ao deletar item: ${e.message}")
+                onResult(false)
+            }
+    }
+
 
     companion object {
         private const val TAG = "FinanceRepository"

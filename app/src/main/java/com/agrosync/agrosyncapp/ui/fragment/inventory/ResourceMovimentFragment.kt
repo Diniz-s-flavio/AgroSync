@@ -9,14 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.data.model.ResourceMovement
 import com.agrosync.agrosyncapp.data.repository.ResourceMovementRepository
 import com.agrosync.agrosyncapp.databinding.FragmentResourceMovimentBinding
 import com.agrosync.agrosyncapp.ui.adapter.ResourceMovimentAdapter
+import com.agrosync.agrosyncapp.ui.adapter.SwipeToDeleteCallback
 import com.google.firebase.auth.FirebaseAuth
 import java.util.Calendar
 
@@ -43,6 +47,8 @@ class ResourceMovimentFragment : Fragment() {
         resourceMovimentRepository = ResourceMovementRepository()
         firebaseAuth = FirebaseAuth.getInstance()
 
+        setupRecyclerViewHeight()
+
         return binding.root
     }
 
@@ -62,6 +68,18 @@ class ResourceMovimentFragment : Fragment() {
 
     }
 
+    private fun setupRecyclerViewHeight() {
+        val displayMetrics = resources.displayMetrics
+        val screenHeight = displayMetrics.heightPixels
+
+        val dpToPx = 296 * displayMetrics.density
+
+        val desiredHeight = (screenHeight - dpToPx).toInt()
+
+        binding.resourceMovimentRecyclerView.layoutParams.height = desiredHeight
+        binding.resourceMovimentRecyclerView.requestLayout()
+    }
+
     private fun setupRecyclerView() {
         resourceMovimentAdapter = ResourceMovimentAdapter(emptyList()) { resourceMoviments ->
             val bundle = Bundle()
@@ -72,6 +90,38 @@ class ResourceMovimentFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = resourceMovimentAdapter
         }
+
+        val deleteIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_withdrawal)
+        val swipeToDeleteCallback = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val resourceMovement = resourceMovimentAdapter.resourceMoviments[position]
+
+                deleteResourceMovement(resourceMovement, position)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(binding.resourceMovimentRecyclerView)
+    }
+
+    private fun deleteResourceMovement(resourceMovement: ResourceMovement, position: Int) {
+        resourceMovimentRepository.deleteResourceMovement(resourceMovement.id, onSuccess = {
+            val updatedList = resourceMovimentAdapter.resourceMoviments.toMutableList()
+            updatedList.removeAt(position)
+
+            resourceMovimentAdapter.updateData(updatedList)
+
+            resourceMovimentAdapter.notifyItemRemoved(position)
+
+            if (updatedList.isEmpty()) {
+                binding.resourceMovimentRecyclerView.visibility = View.GONE
+            } else {
+                binding.resourceMovimentRecyclerView.visibility = View.VISIBLE
+            }
+        }, onFailure = { e ->
+            Log.e("ResourceMovimentFragment", "Erro ao excluir movimentação", e)
+        })
     }
 
     private fun setupMonthSpinner() {

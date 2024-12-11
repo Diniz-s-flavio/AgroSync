@@ -26,6 +26,7 @@ class ResourceRepository {
             "category" to resource.category.name,
             "totalAmount" to resource.totalAmount,
             "totalValue" to resource.totalValue,
+            "imgUrl" to resource.imgUrl
         )
 
         db.collection("resource")
@@ -53,6 +54,20 @@ class ResourceRepository {
             e.printStackTrace()
             mutableListOf()
         }
+    }
+
+    fun delete(resource: Resource, onComplete: (Boolean) -> Unit) {
+        db.collection("resource")
+            .document(resource.id)
+            .delete()
+            .addOnSuccessListener {
+                Log.d(TAG, "Recurso excluído: ${resource.id}")
+                onComplete(true)
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "Erro ao excluir o recurso: ${e.message}")
+                onComplete(false)
+            }
     }
 
     companion object {

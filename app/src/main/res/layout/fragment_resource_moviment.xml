@@ -29,7 +29,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/spinnerPeriodo" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="82dp"/>
 
         <Spinner
             android:id="@+id/spinnerPeriodo"

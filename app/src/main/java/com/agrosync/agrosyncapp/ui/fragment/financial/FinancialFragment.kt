@@ -9,10 +9,14 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.data.model.Finance
 import com.agrosync.agrosyncapp.data.model.Operation
@@ -20,6 +24,7 @@ import com.agrosync.agrosyncapp.data.repository.FinanceRepository
 import com.agrosync.agrosyncapp.databinding.FragmentFinancialBinding
 import com.agrosync.agrosyncapp.databinding.FragmentHomeBinding
 import com.agrosync.agrosyncapp.ui.adapter.FinanceAdapter
+import com.agrosync.agrosyncapp.ui.adapter.SwipeToDeleteCallback
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
@@ -45,13 +50,27 @@ class FinancialFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFinancialBinding.inflate(inflater, container, false)
 
         financeRepository = FinanceRepository()
         firebaseAuth = FirebaseAuth.getInstance()
 
-        return binding?.root
+        setupRecyclerViewHeight()
+
+        return binding.root
+    }
+
+    private fun setupRecyclerViewHeight() {
+        val displayMetrics = resources.displayMetrics
+        val screenHeight = displayMetrics.heightPixels
+
+        val dpToPx = 231 * displayMetrics.density
+
+        val desiredHeight = (screenHeight - dpToPx).toInt()
+
+        binding.financiaRecyclerView.layoutParams.height = desiredHeight
+        binding.financiaRecyclerView.requestLayout()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -79,6 +98,43 @@ class FinancialFragment : Fragment() {
         binding?.financiaRecyclerView?.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = financeAdapter
+        }
+
+        // Add Swipe to Delete functionality
+        val deleteIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_withdrawal)
+        val swipeToDeleteCallback = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val financeToDelete = financeAdapter.finances[position]
+
+                deleteFinance(financeToDelete) { success ->
+                    if (success) {
+                        (financeAdapter.finances as? MutableList)?.removeAt(position)
+                        financeAdapter.notifyItemRemoved(position)
+                    } else {
+                        loadFinancialData(binding.spinnerPeriodo.selectedItemPosition)
+                        Toast.makeText(
+                            requireContext(),
+                            "Erro ao excluir item",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(binding?.financiaRecyclerView)
+    }
+
+    private fun deleteFinance(finance: Finance, onResult: (Boolean) -> Unit) {
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            financeRepository.deleteFinance(finance.id) { success ->
+                onResult(success)
+            }
+        } else {
+            onResult(false)
         }
     }
 

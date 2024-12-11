@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/financialFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="75dp"
-    tools:context=".ui.fragment.financial.FinancialFragment">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragment.financial.FinancialFragment"
+    android:layout_marginTop="75dp">
         <TextView
             android:id="@+id/tvFinacialTitle"
             android:layout_width="match_parent"
@@ -23,13 +18,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/financiaRecyclerView"
-            android:layout_width="match_parent"
+        <Spinner
+            android:id="@+id/spinnerPeriodo"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
+            android:layout_gravity="end"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerPeriodo"/>
+            app:layout_constraintTop_toBottomOf="@id/tvFinacialTitle"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="40dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/financiaRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="96dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton3"
@@ -42,16 +48,4 @@
             android:backgroundTint="@color/primaryColor"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="70dp"/>
-
-        <Spinner
-            android:id="@+id/spinnerPeriodo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvFinacialTitle"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="40dp"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>

@@ -192,6 +192,19 @@
                             tools:ignore="NestedWeights" />
                     </LinearLayout>
                 </LinearLayout>
+                <Button
+                    android:id="@+id/btnHistorico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="#56D6FB"
+                    android:text="Histórico"
+                    android:textSize="26sp"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/descriptionDisplay"/>
                 <ImageView
                     android:id="@+id/ivPhotoDisplay"
                     android:layout_width="340dp"
@@ -199,32 +212,19 @@
                     android:contentDescription="Foto de Insumo"
                     android:src="@drawable/resource_img_placeholder"
                     android:background="@color/light_gray_bg"
-                    app:layout_constraintTop_toBottomOf="@id/descriptionDisplay"
+                    app:layout_constraintTop_toBottomOf="@id/btnHistorico"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="60dp"
                     />
 
-                    <Button
-                        android:id="@+id/btnHistorico"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:backgroundTint="#56D6FB"
-                        android:text="Histórico"
-                        android:textSize="26sp"
-                        android:layout_marginTop="16dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ivPhotoDisplay"/>
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="55dp"
                     android:layout_marginTop="20dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btnHistorico"/>
+                    app:layout_constraintTop_toBottomOf="@id/ivPhotoDisplay"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
         <com.google.android.material.floatingactionbutton.FloatingActionButton

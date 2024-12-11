@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavArgs
 import androidx.navigation.NavController
@@ -18,6 +19,7 @@ import com.agrosync.agrosyncapp.data.repository.ResourceRepository
 import com.agrosync.agrosyncapp.databinding.FragmentInventoryBinding
 import com.agrosync.agrosyncapp.databinding.FragmentResourceDetailBinding
 import com.agrosync.agrosyncapp.viewModel.MainViewModel
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 
 class ResourceDetailFragment : Fragment() {
@@ -46,9 +48,18 @@ class ResourceDetailFragment : Fragment() {
 
         binding.tvResourceDetailTitle.text = resource.name
         binding.edtAmountDisplay.text = resource.totalAmount.toString() + " " + resource.measureUnit.acronym
+        binding.tvCostLabel.text = if (resource.totalValue<0) "Custo:" else "Lucro:"
         binding.edtCostDisplay.text = resource.formatToCurrency()
         binding.edtDescriptionDisplay.text = resource.description
         binding.tvCategory.text = resource.category.displayName
+
+        if (resource.imgUrl.isNotBlank()){
+            Glide.with(binding.ivPhotoDisplay.context)
+                .load(resource.imgUrl)
+                .placeholder(R.drawable.resource_img_placeholder)
+                .error(R.drawable.resource_img_placeholder)
+                .into(binding.ivPhotoDisplay)
+        }
 
         binding.editResourceButton.setOnClickListener{
             val bundle = Bundle()
