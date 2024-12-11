@@ -26,6 +26,7 @@ class ResourceRepository {
             "category" to resource.category.name,
             "totalAmount" to resource.totalAmount,
             "totalValue" to resource.totalValue,
+            "imgUrl" to resource.imgUrl
         )
 
         db.collection("resource")

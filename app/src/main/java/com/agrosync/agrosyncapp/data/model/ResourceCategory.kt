@@ -11,9 +11,7 @@ enum class ResourceCategory(val displayName: String) {
     CONSTRUCTION_MATERIALS("Materiais de Construção Rural"),
     OTHERS("Outros");
 
-    companion object {
-        fun fromDisplayName(displayName: String): ResourceCategory? {
-            return values().firstOrNull { it.displayName == displayName }
-        }
+    override fun toString(): String {
+        return displayName
     }
 }

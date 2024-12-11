@@ -15,4 +15,9 @@ class AuthenticationFirebaseRepository(private val auth: FirebaseAuth) {
     fun signOut() {
         auth.signOut()
     }
+
+    fun isLoggedIn(): Boolean {
+        return auth.currentUser != null
+    }
+
 }

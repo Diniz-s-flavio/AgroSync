@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavArgs
 import androidx.navigation.NavController
@@ -18,6 +19,7 @@ import com.agrosync.agrosyncapp.data.repository.ResourceRepository
 import com.agrosync.agrosyncapp.databinding.FragmentInventoryBinding
 import com.agrosync.agrosyncapp.databinding.FragmentResourceDetailBinding
 import com.agrosync.agrosyncapp.viewModel.MainViewModel
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 
 class ResourceDetailFragment : Fragment() {
@@ -49,6 +51,19 @@ class ResourceDetailFragment : Fragment() {
         binding.edtCostDisplay.text = resource.formatToCurrency()
         binding.edtDescriptionDisplay.text = resource.description
         binding.tvCategory.text = resource.category.displayName
+
+        if (resource.imgUrl.isNotBlank()){
+            Glide.with(binding.ivPhotoDisplay.context)
+                .load(resource.imgUrl)
+                .placeholder(R.drawable.resource_img_placeholder)
+                .error(R.drawable.resource_img_placeholder)
+                .into(binding.ivPhotoDisplay)
+
+            val heightInDp = 680
+            val heightInPx = (heightInDp * resources.displayMetrics.density).toInt()
+            binding.ivPhotoDisplay.layoutParams.height = heightInPx
+            binding.ivPhotoDisplay.requestLayout()
+        }
 
         binding.editResourceButton.setOnClickListener{
             val bundle = Bundle()

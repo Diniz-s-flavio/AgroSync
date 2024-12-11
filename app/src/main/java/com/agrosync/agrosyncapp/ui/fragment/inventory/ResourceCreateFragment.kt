@@ -2,8 +2,6 @@ package com.agrosync.agrosyncapp.ui.fragment.inventory
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +13,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -30,6 +29,7 @@ import com.agrosync.agrosyncapp.data.repository.ImageRepository
 import com.agrosync.agrosyncapp.data.repository.ResourceRepository
 import com.agrosync.agrosyncapp.databinding.FragmentResourceCreateBinding
 import com.agrosync.agrosyncapp.viewModel.MainViewModel
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -56,6 +56,8 @@ class ResourceCreateFragment : Fragment() {
     private lateinit var farmRepository: FarmRepository
     private lateinit var imageRepository: ImageRepository
     private var imgUrl: String = ""
+    private lateinit var refResource: Resource
+    private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
 
 
     override fun onCreateView(
@@ -85,16 +87,32 @@ class ResourceCreateFragment : Fragment() {
         navController = view.findNavController()
 
         if (arguments?.getBoolean("isEditing") == true) {
-            val refResource = mainViewModel.refResource
+            refResource = mainViewModel.refResource
             binding.tvResourceCreateTitle.text = "Editar Insumo"
             binding.etName.setText(refResource.name)
             binding.etDescription.setText(refResource.description)
-//            binding.spinnerCategories.setSelection(resource.category)
+            binding.spinnerCategories.setSelection(refResource.category.ordinal)
             binding.spinnerMeasureUnit.setSelection(refResource.measureUnit.ordinal)
             binding.etDescription.setText(refResource.description)
+            if (refResource.imgUrl.isNotBlank()){
+                Glide.with(binding.resourceImage.context)
+                    .load(refResource.imgUrl)
+                    .placeholder(R.drawable.resource_img_placeholder)
+                    .error(R.drawable.resource_img_placeholder)
+                    .into(binding.resourceImage)
+            }
         }
         setupCategoriesSpinner()
         setupMeasureUnitSpinner()
+
+        imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.data?.let { uri ->
+                    imgUrl = uri.toString()
+                    binding.resourceImage.setImageURI(uri)
+                }
+            }
+        }
 
         //Image Upload
         btnSelectImage.setOnClickListener {
@@ -121,6 +139,9 @@ class ResourceCreateFragment : Fragment() {
                         }
                         if(arguments?.getBoolean("isEditing") == true){
                             resource.id = mainViewModel.refResource.id
+                            resource.totalAmount = mainViewModel.refResource.totalAmount
+                            resource.totalValue = mainViewModel.refResource.totalValue
+                            Log.d(TAG, "IMG do recurso: ${resource.imgUrl}")
                             resourceRepository.save(resource,
                                 onSuccess = { response ->
                                     if (response != "") {
@@ -146,8 +167,6 @@ class ResourceCreateFragment : Fragment() {
                                         ).show()
                                 })
                         }else{
-                            resource.totalAmount = 0.0
-                            resource.totalValue = 0.0
                             resourceRepository.save(resource,
                                 onSuccess = { response ->
                                     if (response != "") {
@@ -191,6 +210,12 @@ class ResourceCreateFragment : Fragment() {
         spinnerMeasureUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerMeasureUnit.adapter = spinnerMeasureUnitAdapter
 
+        if (arguments?.getBoolean("isEditing") == true) {
+            val defaultCategory = refResource.measureUnit
+            val defaultPosition = mUnits.indexOf(defaultCategory.displayName)
+            spinnerMeasureUnit.setSelection(defaultPosition)
+        }
+
         spinnerMeasureUnit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parentView: AdapterView<*>,
@@ -199,8 +224,6 @@ class ResourceCreateFragment : Fragment() {
                 id: Long
             ) {
                 selectedMeasureUnit = MeasureUnit.entries[position]
-                Toast.makeText(requireContext(), "Selecionado: $selectedMeasureUnit", Toast.LENGTH_SHORT)
-                    .show()
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>) {}
@@ -214,6 +237,12 @@ class ResourceCreateFragment : Fragment() {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerCategories.adapter = spinnerAdapter
 
+        if (arguments?.getBoolean("isEditing") == true) {
+            val defaultCategory = refResource.category
+            val defaultPosition = categories.indexOf(defaultCategory.displayName)
+            spinnerCategories.setSelection(defaultPosition)
+        }
+
         spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parentView: AdapterView<*>,
@@ -222,11 +251,6 @@ class ResourceCreateFragment : Fragment() {
                 id: Long
             ) {
                 selectedCategory = ResourceCategory.entries.first { it.displayName == categories[position] }
-                Toast.makeText(
-                    requireContext(),
-                    "Selecionado: ${categories[position]}",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>) {}
@@ -237,17 +261,7 @@ class ResourceCreateFragment : Fragment() {
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
             type = "image/*"
         }
-        startActivityForResult(intent, IMAGE_PICK_REQUEST_CODE)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IMAGE_PICK_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            data?.data?.let { uri ->
-                imgUrl = uri.toString()
-                binding.resourceImage.setImageURI(uri)
-            }
-        }
+        imagePickerLauncher.launch(intent)
     }
 
     override fun onDestroyView() {

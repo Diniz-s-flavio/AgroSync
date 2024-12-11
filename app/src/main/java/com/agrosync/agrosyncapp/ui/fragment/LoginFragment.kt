@@ -44,6 +44,7 @@ class LoginFragment : Fragment() {
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                vm.isLoggedIn()
                 vm.authUiState.collect {state ->
                     when(state) {
                         LoginUiState.LOADING -> Log.d(TAG, "LOADING")
@@ -56,6 +57,7 @@ class LoginFragment : Fragment() {
                 }
             }
         }
+
 
         binding?.btnSignIn?.setOnClickListener {
             val email: String = binding?.etEmail?.text.toString()
