@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.data.model.ResourceMovement
@@ -19,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import java.util.Calendar
 
 class ResourceMovimentFragment : Fragment() {
-
+    private lateinit var  navController: NavController
     private var _binding: FragmentResourceMovimentBinding? = null
     private val binding get() = _binding!!
     private lateinit var resourceMovimentAdapter: ResourceMovimentAdapter
@@ -46,10 +48,17 @@ class ResourceMovimentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = view.findNavController()
 
         setupRecyclerView()
 
         setupMonthSpinner()
+
+        binding.addResourceButton.setOnClickListener{
+            val bundle = Bundle()
+            bundle.putBoolean("isFromResource", true)
+            navController.navigate(R.id.action_resourceMovimentFragment_to_addResourceFragment, bundle)
+        }
 
     }
 
@@ -80,7 +89,7 @@ class ResourceMovimentFragment : Fragment() {
 
         binding.spinnerPeriodo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                loadResourceMovimentData(position)
+                loadResourceMovementByData(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -88,7 +97,7 @@ class ResourceMovimentFragment : Fragment() {
         }
     }
 
-    private fun loadResourceMovimentData(selectedMonthPosition: Int) {
+    private fun loadResourceMovementByData(selectedMonthPosition: Int) {
         val currentUser = firebaseAuth.currentUser
         val resourceId = arguments?.getString("resourceId")
         if (currentUser != null) {
@@ -97,15 +106,15 @@ class ResourceMovimentFragment : Fragment() {
             resourceId?.let {
                 resourceMovimentRepository.findByResourceId(
                     it,
-                    onSuccess = { resourceMoviments ->
+                    onSuccess = { resourceMovements ->
                         val calendar = Calendar.getInstance()
                         calendar.set(Calendar.MONTH, selectedMonthPosition)
                         val selectedMonth = selectedMonthPosition
                         val selectedYear = calendar.get(Calendar.YEAR)
 
-                        val monthlyFinances = resourceMoviments.filter { finance ->
+                        val monthlyFinances = resourceMovements.filter { resourceMovement ->
                             val resourceMovimentCalendar = Calendar.getInstance().apply {
-                                time = finance.date
+                                time = resourceMovement.movementDate
                             }
                             resourceMovimentCalendar.get(Calendar.MONTH) == selectedMonth &&
                                     resourceMovimentCalendar.get(Calendar.YEAR) == selectedYear
@@ -124,9 +133,9 @@ class ResourceMovimentFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun updateResourceMovimentList(resourceMoviments: List<ResourceMovement>) {
-        resourceMovimentAdapter = ResourceMovimentAdapter(resourceMoviments) { resourceMoviments ->
+        resourceMovimentAdapter = ResourceMovimentAdapter(resourceMoviments) { resourceMovements ->
 //            val bundle = Bundle()
-//            bundle.putSerializable("finance", resourceMoviments)
+//            bundle.putSerializable("finance", resourceMovements)
 //
 //            navController.navigate(R.id.action_financialFragment_to_financialDetailFragment, bundle)
         }

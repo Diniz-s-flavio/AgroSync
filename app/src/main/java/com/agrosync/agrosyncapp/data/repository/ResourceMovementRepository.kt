@@ -22,7 +22,7 @@ class ResourceMovementRepository {
             "id" to resourceMovement.id,
             "value" to resourceMovement.value,
             "userId" to resourceMovement.userId,
-            "movementDate" to resourceMovement.date,
+            "movementDate" to resourceMovement.movementDate,
             "operation" to resourceMovement.operation,
             "resourceId" to resourceMovement.resourceId,
             "movementAmount" to resourceMovement.movementAmount,
@@ -55,7 +55,7 @@ class ResourceMovementRepository {
                 onSuccess(resourceMoviments)
             }
             .addOnFailureListener { e ->
-                Log.d(ResourceMovementRepository.TAG, "Erro ao carregar finanças: ${e.message}")
+                Log.d(TAG, "Erro ao carregar finanças: ${e.message}")
                 onFailure(e)
             }
     }

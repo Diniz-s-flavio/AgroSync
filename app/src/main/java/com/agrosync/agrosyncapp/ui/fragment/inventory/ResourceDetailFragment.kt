@@ -56,12 +56,6 @@ class ResourceDetailFragment : Fragment() {
             navController.navigate(R.id.action_resourceDetailFragment_to_resourceCreateFragment, bundle)
         }
 
-        binding.addResourceButton.setOnClickListener{
-            val bundle = Bundle()
-            bundle.putBoolean("isFromResource", true)
-            navController.navigate(R.id.action_resourceDetailFragment_to_addResourceFragment, bundle)
-        }
-
         binding.btnHistorico.setOnClickListener{
             val bundle = Bundle()
             bundle.putString("resourceId", resource.id)
