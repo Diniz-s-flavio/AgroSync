@@ -69,7 +69,7 @@ class Resource() {
     }
 
     fun calcResourceNewTotalValue(operation: ResourceOperation, movementValue: Double) {
-        if (operation == ResourceOperation.WITHDRAWAL || operation == ResourceOperation.SELL){
+        if (operation == ResourceOperation.WITHDRAWAL || operation == ResourceOperation.BUY){
             this.totalValue -= movementValue
         } else {
             this.totalValue += movementValue
