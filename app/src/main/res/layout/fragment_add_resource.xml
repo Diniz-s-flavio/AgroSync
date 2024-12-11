@@ -138,7 +138,7 @@
                     android:id="@+id/etAmount"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="text"
+                    android:inputType="numberDecimal"
                     android:hint="@string/amount_input_hint"
                     android:background="#E9E9E9"
                     android:textColor="@color/black"/>
@@ -193,7 +193,7 @@
                     android:id="@+id/etValue"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="text"
+                    android:inputType="numberDecimal"
                     android:hint="@string/value_hint"
                     android:background="#E9E9E9"
                     android:textColor="@color/black"/>
