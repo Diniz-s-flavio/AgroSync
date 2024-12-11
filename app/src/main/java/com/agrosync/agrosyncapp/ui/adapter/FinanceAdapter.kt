@@ -14,8 +14,8 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class FinanceAdapter(
-    private val finances: List<Finance>,
-    private val onItemClick: (Finance) -> Unit // Adiciona o listener de clique
+    var finances: List<Finance>,
+    private val onItemClick: (Finance) -> Unit
 ) : RecyclerView.Adapter<FinanceAdapter.FinanceViewHolder>() {
 
     class FinanceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

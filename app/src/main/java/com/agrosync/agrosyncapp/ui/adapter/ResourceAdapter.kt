@@ -11,10 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.data.model.Resource
 
-class ResourceAdapter(private val context: Context,
-                      private val resourceList: MutableList<Resource>, private val onItemClickListener: ResourceClickListener) :
+class ResourceAdapter(
+    private val context: Context,
+    private val resourceList: MutableList<Resource>,
+    private val onItemClickListener: ResourceClickListener
+) :
     RecyclerView.Adapter<ResourceAdapter.ResourceViewHolder>() {
-    inner class ResourceViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class ResourceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.tvItemTitle)
         val amount = itemView.findViewById<TextView>(R.id.tvItemAmount)
         val unit = itemView.findViewById<TextView>(R.id.tvItemUnit)
@@ -30,6 +33,7 @@ class ResourceAdapter(private val context: Context,
         val holder = ResourceViewHolder(itemList)
         return holder
     }
+
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ResourceViewHolder, position: Int) {
         holder.title.text = resourceList[position].name
@@ -40,5 +44,6 @@ class ResourceAdapter(private val context: Context,
             onItemClickListener.onItemClick(holder, position)
         }
     }
+
     override fun getItemCount(): Int = resourceList.size
 }

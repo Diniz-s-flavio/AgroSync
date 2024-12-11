@@ -8,12 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.agrosync.agrosyncapp.R
@@ -23,6 +26,7 @@ import com.agrosync.agrosyncapp.data.repository.FarmRepository
 import com.agrosync.agrosyncapp.data.repository.ResourceRepository
 import com.agrosync.agrosyncapp.databinding.FragmentInventoryBinding
 import com.agrosync.agrosyncapp.ui.adapter.ResourceAdapter
+import com.agrosync.agrosyncapp.ui.adapter.SwipeToDeleteCallback
 import com.agrosync.agrosyncapp.viewModel.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
@@ -86,6 +90,36 @@ class InventoryFragment : Fragment() {
 
             binding.createResourceButton.setOnClickListener {
                 navController.navigate(R.id.action_inventoryFragment_to_resourceCreateFragment)
+            }
+        }
+
+
+        val deleteIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_withdrawal)
+        val swipeToDeleteCallback = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val resource = resourceList?.get(position)
+                if (resource != null) {
+                    deleteResource(resource, position)
+                }
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+    }
+
+    private fun deleteResource(resource: Resource, position: Int) {
+        resourceRepository.delete(resource) { success ->
+            if (success) {
+                lifecycleScope.launch {
+                    resourceList = resourceRepository.findAllResourceByFarm(mainViewModel.refFarm.id!!)
+                    updateRecyclerView(resourceList)
+                }
+                Toast.makeText(requireContext(), "Recurso excluído com sucesso", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Erro ao excluir recurso", Toast.LENGTH_SHORT).show()
+                recyclerView.adapter?.notifyItemChanged(position)
             }
         }
     }
