@@ -47,6 +47,8 @@ class ResourceMovimentFragment : Fragment() {
         resourceMovimentRepository = ResourceMovementRepository()
         firebaseAuth = FirebaseAuth.getInstance()
 
+        setupRecyclerViewHeight()
+
         return binding.root
     }
 
@@ -64,6 +66,18 @@ class ResourceMovimentFragment : Fragment() {
             navController.navigate(R.id.action_resourceMovimentFragment_to_addResourceFragment, bundle)
         }
 
+    }
+
+    private fun setupRecyclerViewHeight() {
+        val displayMetrics = resources.displayMetrics
+        val screenHeight = displayMetrics.heightPixels
+
+        val dpToPx = 296 * displayMetrics.density
+
+        val desiredHeight = (screenHeight - dpToPx).toInt()
+
+        binding.resourceMovimentRecyclerView.layoutParams.height = desiredHeight
+        binding.resourceMovimentRecyclerView.requestLayout()
     }
 
     private fun setupRecyclerView() {

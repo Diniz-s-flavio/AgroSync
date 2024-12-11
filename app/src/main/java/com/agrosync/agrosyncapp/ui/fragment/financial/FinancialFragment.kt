@@ -50,13 +50,27 @@ class FinancialFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFinancialBinding.inflate(inflater, container, false)
 
         financeRepository = FinanceRepository()
         firebaseAuth = FirebaseAuth.getInstance()
 
-        return binding?.root
+        setupRecyclerViewHeight()
+
+        return binding.root
+    }
+
+    private fun setupRecyclerViewHeight() {
+        val displayMetrics = resources.displayMetrics
+        val screenHeight = displayMetrics.heightPixels
+
+        val dpToPx = 231 * displayMetrics.density
+
+        val desiredHeight = (screenHeight - dpToPx).toInt()
+
+        binding.financiaRecyclerView.layoutParams.height = desiredHeight
+        binding.financiaRecyclerView.requestLayout()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

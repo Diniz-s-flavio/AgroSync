@@ -57,6 +57,9 @@ class InventoryFragment : Fragment() {
         resourceRepository = ResourceRepository()
         farmRepository = FarmRepository()
         auth = FirebaseAuth.getInstance()
+
+        setupRecyclerViewHeight()
+
         return binding.root
     }
 
@@ -109,6 +112,18 @@ class InventoryFragment : Fragment() {
 
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
+    }
+
+    private fun setupRecyclerViewHeight() {
+        val displayMetrics = resources.displayMetrics
+        val screenHeight = displayMetrics.heightPixels
+
+        val dpToPx = 278 * displayMetrics.density
+
+        val desiredHeight = (screenHeight - dpToPx).toInt()
+
+        binding.resourceRecyclerView.layoutParams.height = desiredHeight
+        binding.resourceRecyclerView.requestLayout()
     }
 
     private fun deleteResource(resource: Resource, position: Int) {
