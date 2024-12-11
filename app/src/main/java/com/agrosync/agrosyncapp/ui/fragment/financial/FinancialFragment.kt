@@ -207,7 +207,7 @@ class FinancialFragment : Fragment() {
                         }
                         financeCalendar.get(Calendar.MONTH) == selectedMonth &&
                                 financeCalendar.get(Calendar.YEAR) == selectedYear
-                    }
+                    }.sortedByDescending { it.date }
 
                     updateFinanceList(monthlyFinances)
 
