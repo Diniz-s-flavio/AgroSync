@@ -1,7 +1,11 @@
 package com.agrosync.agrosyncapp.ui.fragment.inventory
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,10 +25,12 @@ import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.data.model.MeasureUnit
 import com.agrosync.agrosyncapp.data.model.Resource
 import com.agrosync.agrosyncapp.data.repository.FarmRepository
+import com.agrosync.agrosyncapp.data.repository.ImageRepository
 import com.agrosync.agrosyncapp.data.repository.ResourceRepository
 import com.agrosync.agrosyncapp.databinding.FragmentResourceCreateBinding
 import com.agrosync.agrosyncapp.viewModel.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
 class ResourceCreateFragment : Fragment() {
@@ -47,6 +53,8 @@ class ResourceCreateFragment : Fragment() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var resourceRepository: ResourceRepository
     private lateinit var farmRepository: FarmRepository
+    private lateinit var imageRepository: ImageRepository
+    private var imgUrl: String = ""
 
 
     override fun onCreateView(
@@ -57,6 +65,7 @@ class ResourceCreateFragment : Fragment() {
         _binding = FragmentResourceCreateBinding.inflate(inflater, container, false)
         resourceRepository = ResourceRepository()
         farmRepository = FarmRepository()
+        imageRepository = ImageRepository(requireContext(), FirebaseFirestore.getInstance())
 
         firebaseAuth = FirebaseAuth.getInstance()
         return binding.root
@@ -89,7 +98,7 @@ class ResourceCreateFragment : Fragment() {
         //Image Upload
         btnSelectImage.setOnClickListener {
             // Abrir o seletor de imagens
-            selectImageLauncher.launch("image/*")
+            openImagePicker()
         }
 
         btnSave.setOnClickListener{
@@ -106,6 +115,9 @@ class ResourceCreateFragment : Fragment() {
                             farm,
                             selectedMeasureUnit
                         )
+                        if (imgUrl.isNotBlank()){
+                            resource.imgUrl = imgUrl
+                        }
                         if(arguments?.getBoolean("isEditing") == true){
                             resource.id = mainViewModel.refResource.id
                             resourceRepository.save(resource,
@@ -117,6 +129,12 @@ class ResourceCreateFragment : Fragment() {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         arguments?.putBoolean("isEditing", false)
+                                        if (resource.imgUrl.isNotBlank()){
+                                            Log.d(TAG, "URL da imagem: ${resource.imgUrl}")
+                                            lifecycleScope.launch {
+                                                imageRepository.uploadImage(resource.imgUrl, resource.id, "resource")
+                                            }
+                                        }
                                         navController.navigate(R.id.action_resourceCreateFragment_to_inventoryFragment)
                                     } else
                                         Toast.makeText(
@@ -137,6 +155,12 @@ class ResourceCreateFragment : Fragment() {
                                             "Insumo Salvo Com Sucesso",
                                             Toast.LENGTH_SHORT
                                         ).show()
+                                        if (resource.imgUrl.isNotBlank()){
+                                            Log.d(TAG, "URL da imagem: ${resource.imgUrl}")
+                                            lifecycleScope.launch {
+                                                imageRepository.uploadImage(resource.imgUrl, resource.id, "resource")
+                                            }
+                                        }
                                         navController.navigate(R.id.action_resourceCreateFragment_to_inventoryFragment)
                                     } else
                                         Toast.makeText(
@@ -211,10 +235,20 @@ class ResourceCreateFragment : Fragment() {
         }
     }
 
-    private val selectImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            // Definir a imagem selecionada no ImageView
-            resourceImage.setImageURI(it)
+    private fun openImagePicker() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            type = "image/*"
+        }
+        startActivityForResult(intent, IMAGE_PICK_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == IMAGE_PICK_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            data?.data?.let { uri ->
+                imgUrl = uri.toString()
+                binding.resourceImage.setImageURI(uri)
+            }
         }
     }
 
@@ -225,5 +259,6 @@ class ResourceCreateFragment : Fragment() {
 
     companion object {
         private const val TAG = "ResourceCreateFragment"
+        private const val IMAGE_PICK_REQUEST_CODE = 101
     }
 }
