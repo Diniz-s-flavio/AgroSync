@@ -25,9 +25,7 @@ class ResourceRepository {
             "measureUnit" to resource.measureUnit,
             "totalAmount" to resource.totalAmount,
             "totalValue" to resource.totalValue,
-        ).apply {
-            if (resource.imgUrl.isNotBlank()) this["imgUrl"] = resource.imgUrl
-        }
+        )
 
         db.collection("resource")
             .document(resource.id)
