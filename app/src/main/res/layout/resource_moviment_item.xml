@@ -11,7 +11,7 @@
     android:layout_marginTop="10dp">
 
     <TextView
-        android:id="@+id/valorFinancia"
+        android:id="@+id/valorResourceMovement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -20,10 +20,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.027"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dataFinancia" />
+        app:layout_constraintTop_toBottomOf="@id/dataResourceMovement" />
 
     <TextView
-        android:id="@+id/dataFinancia"
+        android:id="@+id/dataResourceMovement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -34,20 +34,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tipoFinancia"
+        android:id="@+id/tipoResourceMovement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold"
         android:text="Compra"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/iconeFinancia"
-        app:layout_constraintStart_toEndOf="@+id/valorFinancia"
+        app:layout_constraintEnd_toStartOf="@id/iconeResourceMovement"
+        app:layout_constraintStart_toEndOf="@+id/valorResourceMovement"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.515" />
 
     <ImageView
-        android:id="@+id/iconeFinancia"
+        android:id="@+id/iconeResourceMovement"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginEnd="36dp"
