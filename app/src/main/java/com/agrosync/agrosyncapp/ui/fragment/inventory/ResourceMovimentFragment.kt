@@ -101,7 +101,6 @@ class ResourceMovimentFragment : Fragment() {
         val currentUser = firebaseAuth.currentUser
         val resourceId = arguments?.getString("resourceId")
         if (currentUser != null) {
-            val userId = currentUser.uid
 
             resourceId?.let {
                 resourceMovimentRepository.findByResourceId(
@@ -118,13 +117,13 @@ class ResourceMovimentFragment : Fragment() {
                             }
                             resourceMovimentCalendar.get(Calendar.MONTH) == selectedMonth &&
                                     resourceMovimentCalendar.get(Calendar.YEAR) == selectedYear
-                        }
+                        }.sortedByDescending { it.movementDate }
 
                         updateResourceMovimentList(monthlyFinances)
 
                     },
                     onFailure = { e ->
-                        Log.e("FinancialFragment", "Erro ao carregar finanças", e)
+                        Log.e("ResouceMovimentFragment", "Erro ao carregar movimentações", e)
                     }
                 )
             }
@@ -133,11 +132,11 @@ class ResourceMovimentFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun updateResourceMovimentList(resourceMoviments: List<ResourceMovement>) {
-        resourceMovimentAdapter = ResourceMovimentAdapter(resourceMoviments) { resourceMovements ->
-//            val bundle = Bundle()
-//            bundle.putSerializable("finance", resourceMovements)
-//
-//            navController.navigate(R.id.action_financialFragment_to_financialDetailFragment, bundle)
+        resourceMovimentAdapter = ResourceMovimentAdapter(resourceMoviments) { resourceMoviment ->
+            val bundle = Bundle()
+            bundle.putSerializable("resourceMoviment", resourceMoviment)
+
+            navController.navigate(R.id.action_resourceMovimentFragment_to_resourceMovimentDetailFragment, bundle)
         }
         binding.resourceMovimentRecyclerView.adapter = resourceMovimentAdapter
         resourceMovimentAdapter.notifyDataSetChanged()

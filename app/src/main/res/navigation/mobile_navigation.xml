@@ -111,6 +111,19 @@
         <action
             android:id="@+id/action_resourceMovimentFragment_to_addResourceFragment"
             app:destination="@id/addResourceFragment" />
+        <action
+            android:id="@+id/action_resourceMovimentFragment_to_resourceMovimentDetailFragment"
+            app:destination="@id/resourceMovimentDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/resourceMovimentDetailFragment"
+        android:name="com.agrosync.agrosyncapp.ui.fragment.inventory.ResourceMovimentDetailFragment"
+        android:label="ResourceMovimentDetailFragment"
+        tools:layout="@layout/fragment_resource_moviment_detail">
+        <action
+            android:id="@+id/action_resourceMovimentDetailFragment_to_resourceMovimentFragment"
+            app:destination="@id/resourceMovimentFragment" />
     </fragment>
 
     <fragment
