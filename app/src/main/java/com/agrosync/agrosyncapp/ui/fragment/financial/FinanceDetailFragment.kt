@@ -11,9 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.data.model.Finance
-import com.agrosync.agrosyncapp.databinding.FragmentFinanceCreateBinding
 import com.agrosync.agrosyncapp.databinding.FragmentFinanceDetailBinding
-import com.agrosync.agrosyncapp.databinding.FragmentResourceDetailBinding
 import com.agrosync.agrosyncapp.viewModel.MainViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
