@@ -1,7 +1,9 @@
 package com.agrosync.agrosyncapp.data.repository
 
 import android.util.Log
+import com.agrosync.agrosyncapp.data.model.Finance
 import com.agrosync.agrosyncapp.data.model.ResourceMovement
+import com.agrosync.agrosyncapp.data.repository.FinanceRepository.Companion
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 
@@ -37,6 +39,24 @@ class ResourceMovementRepository {
             }
             .addOnFailureListener { e ->
                 Log.d(TAG,"Erro ao salvar os dados: ${e.message}")
+            }
+    }
+
+    fun findByResourceId(resourceId: String, onSuccess: (List<ResourceMovement>) -> Unit, onFailure: (Exception) -> Unit) {
+        db.collection("resourceMovement")
+            .whereEqualTo("resourceId", resourceId)
+            .get()
+            .addOnSuccessListener { result ->
+                val resourceMoviments = mutableListOf<ResourceMovement>()
+                for (document in result) {
+                    val finance = document.toObject(ResourceMovement::class.java)
+                    resourceMoviments.add(finance)
+                }
+                onSuccess(resourceMoviments)
+            }
+            .addOnFailureListener { e ->
+                Log.d(ResourceMovementRepository.TAG, "Erro ao carregar finanças: ${e.message}")
+                onFailure(e)
             }
     }
 
