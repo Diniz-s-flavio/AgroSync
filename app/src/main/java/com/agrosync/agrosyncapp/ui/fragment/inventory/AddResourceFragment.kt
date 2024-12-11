@@ -118,7 +118,7 @@ class AddResourceFragment : Fragment() {
     }
 
     private fun setupDatePicker() {
-        calendar = Calendar.getInstance() // Obtém a data atual
+        calendar = Calendar.getInstance()
         updateDateInView()
         binding.edtDate.setOnClickListener {
             showDatePickerDialog()
@@ -148,7 +148,6 @@ class AddResourceFragment : Fragment() {
     }
 
     private fun addResource() {
-        // Obtendo os valores dos campos
         val title = "Movimenção de Insumo"
         var value = binding.etValue.text.toString()
         val amount = binding.etAmount.text.toString()
@@ -161,7 +160,6 @@ class AddResourceFragment : Fragment() {
             value = "-$value"
         }
 
-        // Validando os campos
         if (amount.isEmpty() || dateString.isEmpty()) {
             Toast.makeText(requireContext(), "Preencha todos os campos obrigatórios!", Toast.LENGTH_SHORT).show()
             return

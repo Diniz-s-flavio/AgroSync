@@ -92,19 +92,14 @@ class ResourceMovimentFragment : Fragment() {
     }
 
     private fun deleteResourceMovement(resourceMovement: ResourceMovement, position: Int) {
-        // Chama o repositório para excluir o item do banco de dados
         resourceMovimentRepository.deleteResourceMovement(resourceMovement.id, onSuccess = {
-            // Remover item da lista
             val updatedList = resourceMovimentAdapter.resourceMoviments.toMutableList()
             updatedList.removeAt(position)
 
-            // Atualiza a lista do adapter
             resourceMovimentAdapter.updateData(updatedList)
 
-            // Notifica a remoção do item
             resourceMovimentAdapter.notifyItemRemoved(position)
 
-            // Atualiza a visibilidade do RecyclerView dependendo do tamanho da lista
             if (updatedList.isEmpty()) {
                 binding.resourceMovimentRecyclerView.visibility = View.GONE
             } else {

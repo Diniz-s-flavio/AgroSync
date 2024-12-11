@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class ResourceMovimentAdapter(
-    var resourceMoviments: List<ResourceMovement>, // Torna a lista uma variável
+    var resourceMoviments: List<ResourceMovement>,
     private val onItemClick: (ResourceMovement) -> Unit
 ) : RecyclerView.Adapter<ResourceMovimentAdapter.ResourceMovimentViewHolder>() {
 
@@ -44,9 +44,8 @@ class ResourceMovimentAdapter(
 
     override fun getItemCount() = resourceMoviments.size
 
-    // Método para atualizar os dados do adapter
     fun updateData(newData: List<ResourceMovement>) {
         resourceMoviments = newData
-        notifyDataSetChanged() // Notifica que os dados foram alterados
+        notifyDataSetChanged()
     }
 }
