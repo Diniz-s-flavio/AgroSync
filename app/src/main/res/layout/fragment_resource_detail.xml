@@ -139,9 +139,10 @@
                             android:textSize="24sp"
                             android:layout_marginStart="40dp"/>
                         <TextView
+                            android:id="@+id/tvCategory"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Fertilizante"
+                            android:text=""
                             android:textColor="@color/textPrimaryColor"
                             android:textSize="24sp"
                             android:textAlignment="viewEnd"

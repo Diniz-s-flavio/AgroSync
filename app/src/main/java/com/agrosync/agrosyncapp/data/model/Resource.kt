@@ -8,7 +8,7 @@ class Resource() {
     var id: String = ""
     var name: String = ""
     var description: String = ""
-    var category: String = ""
+    var category: ResourceCategory = ResourceCategory.OTHERS
     var farm: Farm? = null
     var measureUnit: MeasureUnit = MeasureUnit.KG
     var imgUrl: String = ""
@@ -19,7 +19,7 @@ class Resource() {
         id: String,
         name: String,
         description: String,
-        category: String,
+        category: ResourceCategory,
         farm: Farm,
         measureUnit: MeasureUnit) : this(){
             this.id = id
@@ -39,7 +39,7 @@ class Resource() {
         bundle.putString("id", id)
         bundle.putString("name", name)
         bundle.putString("description", description)
-        bundle.putString("category", category)
+        bundle.putString("category", category.displayName)
         bundle.putString("measureUnit", measureUnit.name)
         bundle.putString("imgUrl", imgUrl)
         bundle.putDouble("totalValue", totalValue)

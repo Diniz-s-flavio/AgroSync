@@ -24,6 +24,7 @@ import androidx.navigation.findNavController
 import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.data.model.MeasureUnit
 import com.agrosync.agrosyncapp.data.model.Resource
+import com.agrosync.agrosyncapp.data.model.ResourceCategory
 import com.agrosync.agrosyncapp.data.repository.FarmRepository
 import com.agrosync.agrosyncapp.data.repository.ImageRepository
 import com.agrosync.agrosyncapp.data.repository.ResourceRepository
@@ -47,7 +48,7 @@ class ResourceCreateFragment : Fragment() {
     private lateinit var btnSelectImage: Button
     private lateinit var btnSave: Button
     private lateinit var btnCancel: Button
-    private lateinit var selectedCategory: String
+    private lateinit var selectedCategory: ResourceCategory
     private lateinit var selectedMeasureUnit: MeasureUnit
     private lateinit var navController: NavController
     private lateinit var firebaseAuth: FirebaseAuth
@@ -207,11 +208,9 @@ class ResourceCreateFragment : Fragment() {
     }
 
     private fun setupCategoriesSpinner() {
-        // Inicializando o Spinner Categories
-        val items = listOf("Item 1", "Item 2", "Item 3")
+        val categories = ResourceCategory.entries.map { it.displayName }
 
-
-        spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
+        spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerCategories.adapter = spinnerAdapter
 
@@ -222,11 +221,10 @@ class ResourceCreateFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                // Lógica quando um item é selecionado
-                selectedCategory = items[position]
+                selectedCategory = ResourceCategory.entries.first { it.displayName == categories[position] }
                 Toast.makeText(
                     requireContext(),
-                    "Selecionado: ${items[position]}",
+                    "Selecionado: ${categories[position]}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

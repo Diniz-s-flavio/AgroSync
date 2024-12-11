@@ -11,8 +11,8 @@ class ResourceRepository {
     fun save(resource: Resource,
              onSuccess: (String) -> Unit) {
         if (resource.id.isBlank()) {
-        val documentId = db.collection("resource").document().id
-        resource.id = documentId
+            val documentId = db.collection("resource").document().id
+            resource.id = documentId
         }
 
         Log.d(TAG, "Salvando os dados: $resource")
@@ -23,6 +23,7 @@ class ResourceRepository {
             "description" to resource.description,
             "farmId" to resource.farm!!.id,
             "measureUnit" to resource.measureUnit,
+            "category" to resource.category.name,
             "totalAmount" to resource.totalAmount,
             "totalValue" to resource.totalValue,
         )
