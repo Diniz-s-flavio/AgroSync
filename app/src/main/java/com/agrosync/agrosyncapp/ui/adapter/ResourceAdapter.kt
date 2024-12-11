@@ -45,5 +45,10 @@ class ResourceAdapter(
         }
     }
 
+    fun deleteItem(position: Int) {
+        resourceList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     override fun getItemCount(): Int = resourceList.size
 }

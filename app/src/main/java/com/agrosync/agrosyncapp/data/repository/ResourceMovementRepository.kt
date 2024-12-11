@@ -60,6 +60,18 @@ class ResourceMovementRepository {
             }
     }
 
+    fun deleteResourceMovement(resourceMovementId: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        db.collection("resourceMovement")
+            .document(resourceMovementId)
+            .delete()
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener { e ->
+                onFailure(e)
+            }
+    }
+
     companion object{
         private val TAG = "ResourceMovementRepository"
     }

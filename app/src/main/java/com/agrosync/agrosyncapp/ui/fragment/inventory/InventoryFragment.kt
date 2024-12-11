@@ -25,6 +25,7 @@ import com.agrosync.agrosyncapp.data.model.Resource
 import com.agrosync.agrosyncapp.data.repository.FarmRepository
 import com.agrosync.agrosyncapp.data.repository.ResourceRepository
 import com.agrosync.agrosyncapp.databinding.FragmentInventoryBinding
+import com.agrosync.agrosyncapp.ui.adapter.FinanceAdapter
 import com.agrosync.agrosyncapp.ui.adapter.ResourceAdapter
 import com.agrosync.agrosyncapp.ui.adapter.SwipeToDeleteCallback
 import com.agrosync.agrosyncapp.viewModel.MainViewModel
@@ -101,6 +102,7 @@ class InventoryFragment : Fragment() {
                 val resource = resourceList?.get(position)
                 if (resource != null) {
                     deleteResource(resource, position)
+                    adapter.deleteItem(position)
                 }
             }
         }
@@ -112,14 +114,12 @@ class InventoryFragment : Fragment() {
     private fun deleteResource(resource: Resource, position: Int) {
         resourceRepository.delete(resource) { success ->
             if (success) {
-                lifecycleScope.launch {
-                    resourceList = resourceRepository.findAllResourceByFarm(mainViewModel.refFarm.id!!)
-                    updateRecyclerView(resourceList)
-                }
+                (resourceList as MutableList<Resource>).removeAt(position)
+                adapter.notifyItemRemoved(position)
                 Toast.makeText(requireContext(), "Recurso excluído com sucesso", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(requireContext(), "Erro ao excluir recurso", Toast.LENGTH_SHORT).show()
-                recyclerView.adapter?.notifyItemChanged(position)
+                adapter.notifyItemChanged(position)
             }
         }
     }

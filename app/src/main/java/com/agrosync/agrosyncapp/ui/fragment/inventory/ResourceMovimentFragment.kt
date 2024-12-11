@@ -9,14 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.data.model.ResourceMovement
 import com.agrosync.agrosyncapp.data.repository.ResourceMovementRepository
 import com.agrosync.agrosyncapp.databinding.FragmentResourceMovimentBinding
 import com.agrosync.agrosyncapp.ui.adapter.ResourceMovimentAdapter
+import com.agrosync.agrosyncapp.ui.adapter.SwipeToDeleteCallback
 import com.google.firebase.auth.FirebaseAuth
 import java.util.Calendar
 
@@ -72,6 +76,43 @@ class ResourceMovimentFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = resourceMovimentAdapter
         }
+
+        val deleteIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_withdrawal)
+        val swipeToDeleteCallback = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val resourceMovement = resourceMovimentAdapter.resourceMoviments[position]
+
+                deleteResourceMovement(resourceMovement, position)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(binding.resourceMovimentRecyclerView)
+    }
+
+    private fun deleteResourceMovement(resourceMovement: ResourceMovement, position: Int) {
+        // Chama o repositório para excluir o item do banco de dados
+        resourceMovimentRepository.deleteResourceMovement(resourceMovement.id, onSuccess = {
+            // Remover item da lista
+            val updatedList = resourceMovimentAdapter.resourceMoviments.toMutableList()
+            updatedList.removeAt(position)
+
+            // Atualiza a lista do adapter
+            resourceMovimentAdapter.updateData(updatedList)
+
+            // Notifica a remoção do item
+            resourceMovimentAdapter.notifyItemRemoved(position)
+
+            // Atualiza a visibilidade do RecyclerView dependendo do tamanho da lista
+            if (updatedList.isEmpty()) {
+                binding.resourceMovimentRecyclerView.visibility = View.GONE
+            } else {
+                binding.resourceMovimentRecyclerView.visibility = View.VISIBLE
+            }
+        }, onFailure = { e ->
+            Log.e("ResourceMovimentFragment", "Erro ao excluir movimentação", e)
+        })
     }
 
     private fun setupMonthSpinner() {
