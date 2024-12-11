@@ -123,7 +123,6 @@ class ResourceCreateFragment : Fragment() {
         btnSave.setOnClickListener{
             lifecycleScope.launch {
                 val userUid = firebaseAuth.currentUser?.uid
-                var saved = false
                 if (userUid != null) {
                     var farm = farmRepository.findByOwnerId(userUid)
                     if (farm != null) {
@@ -140,6 +139,8 @@ class ResourceCreateFragment : Fragment() {
                         }
                         if(arguments?.getBoolean("isEditing") == true){
                             resource.id = mainViewModel.refResource.id
+                            resource.totalAmount = mainViewModel.refResource.totalAmount
+                            resource.totalValue = mainViewModel.refResource.totalValue
                             Log.d(TAG, "IMG do recurso: ${resource.imgUrl}")
                             resourceRepository.save(resource,
                                 onSuccess = { response ->
@@ -154,7 +155,6 @@ class ResourceCreateFragment : Fragment() {
                                             Log.d(TAG, "URL da imagem: ${resource.imgUrl}")
                                             lifecycleScope.launch {
                                                 imageRepository.uploadImage(resource.imgUrl, resource.id, "resource")
-                                                saved = true
                                             }
                                         }
                                         navController.navigate(R.id.action_resourceCreateFragment_to_inventoryFragment)
@@ -190,7 +190,6 @@ class ResourceCreateFragment : Fragment() {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                 })
-                            saved = true
                         }
                         }
                 }
