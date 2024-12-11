@@ -86,9 +86,6 @@ class ResourceCreateFragment : Fragment() {
 
         navController = view.findNavController()
 
-        refResource = mainViewModel.refResource
-        Log.d(TAG, "onViewCreated ref resource img: ${refResource.imgUrl}")
-
         if (arguments?.getBoolean("isEditing") == true) {
             refResource = mainViewModel.refResource
             binding.tvResourceCreateTitle.text = "Editar Insumo"
