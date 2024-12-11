@@ -30,7 +30,8 @@ class FinanceRepository {
             "operation" to finance.operation,
             "value" to finance.value,
             "description" to finance.description,
-            "date" to finance.date
+            "date" to finance.date,
+            "isFromResource" to finance.isFromResource
         )
         if (finance.resource.id.isNotBlank()) {
             data["resourceId"] = finance.resource.id

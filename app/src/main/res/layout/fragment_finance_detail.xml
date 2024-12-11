@@ -183,7 +183,7 @@
                     android:textSize="24sp"
                     android:layout_weight="1"
                     android:layout_marginHorizontal="10dp"
-                    />
+                    tools:ignore="NestedWeights" />
             </LinearLayout>
         </LinearLayout>
 
@@ -197,11 +197,12 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <Button
-                android:id="@+id/btnCancel"
+                android:id="@+id/btnGoToResource"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#56D6FB"
-                android:text="Ver Insumo"
+                android:text="@string/go_to_resource"
                 android:textSize="26sp"
                 android:layout_gravity="center|start"
                 android:layout_marginEnd="20dp"

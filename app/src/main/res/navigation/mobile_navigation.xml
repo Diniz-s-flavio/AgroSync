@@ -60,6 +60,9 @@
         android:name="com.agrosync.agrosyncapp.ui.fragment.financial.FinanceDetailFragment"
         android:label="FinancialDetailFragment"
         tools:layout="@layout/fragment_finance_detail">
+        <action
+            android:id="@+id/action_financialDetailFragment_to_resourceDetailFragment"
+            app:destination="@id/resourceDetailFragment" />
     </fragment>
 
     <fragment
@@ -96,9 +99,6 @@
             android:id="@+id/action_resourceDetailFragment_to_resourceCreateFragment"
             app:destination="@id/resourceCreateFragment" />
         <action
-            android:id="@+id/action_resourceDetailFragment_to_addResourceFragment"
-            app:destination="@id/addResourceFragment" />
-        <action
             android:id="@+id/action_resourceDetailFragment_to_resourceMovimentFragment"
             app:destination="@id/resourceMovimentFragment" />
     </fragment>
@@ -108,6 +108,9 @@
         android:name="com.agrosync.agrosyncapp.ui.fragment.inventory.ResourceMovimentFragment"
         android:label="ResourceMovimentFragment"
         tools:layout="@layout/fragment_resource_moviment">
+        <action
+            android:id="@+id/action_resourceMovimentFragment_to_addResourceFragment"
+            app:destination="@id/addResourceFragment" />
     </fragment>
 
     <fragment

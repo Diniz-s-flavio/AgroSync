@@ -12,7 +12,7 @@ class ResourceMovement() : Serializable {
     var newResourceAmount: Double = 0.0
     var value: Double = 0.0
     lateinit var operation: ResourceOperation
-    var date: Date = Date()
+    var movementDate: Date = Date()
 
     constructor(id: String, resource: String, user: String,
                 amount: Double, oldResourceAmount: Double,
@@ -24,6 +24,6 @@ class ResourceMovement() : Serializable {
         this.oldResourceAmount = oldResourceAmount
         this.value = valeu
         this.operation = operation
-        this.date = date
+        this.movementDate = date
     }
 }
