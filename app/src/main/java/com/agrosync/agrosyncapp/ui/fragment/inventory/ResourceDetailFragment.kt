@@ -48,6 +48,7 @@ class ResourceDetailFragment : Fragment() {
         binding.edtAmountDisplay.text = resource.totalAmount.toString() + " " + resource.measureUnit.acronym
         binding.edtCostDisplay.text = resource.formatToCurrency()
         binding.edtDescriptionDisplay.text = resource.description
+        binding.tvCategory.text = resource.category.displayName
 
         binding.editResourceButton.setOnClickListener{
             val bundle = Bundle()
