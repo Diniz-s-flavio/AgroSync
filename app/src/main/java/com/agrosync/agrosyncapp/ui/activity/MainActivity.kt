@@ -14,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.agrosync.agrosyncapp.R
 import com.agrosync.agrosyncapp.databinding.ActivityMainBinding
+import com.agrosync.agrosyncapp.ui.fragment.ProfileEditFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -50,6 +51,14 @@ class MainActivity : AppCompatActivity() {
         val headerView = navigationView.getHeaderView(0)
         val userNameTextView = headerView.findViewById<TextView>(R.id.nomeUser)
 
+        navigationView.menu.findItem(R.id.nav_profile)?.setOnMenuItemClickListener {
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START)
+            }
+            navController.navigate(R.id.profileEditFragment)
+            true
+        }
+
         fetchUserName(userNameTextView)
 
         navigationView.menu.findItem(R.id.nav_logout)?.setOnMenuItemClickListener {
@@ -68,6 +77,13 @@ class MainActivity : AppCompatActivity() {
         setupBottomNavigation()
     }
 
+    fun updateDrawerUsername() {
+        val navigationView: NavigationView = binding.navigationView
+        val headerView = navigationView.getHeaderView(0)
+        val userNameTextView = headerView.findViewById<TextView>(R.id.nomeUser)
+        fetchUserName(userNameTextView)
+    }
+
     private fun fetchUserName(userNameTextView: TextView) {
         val currentUser = auth.currentUser
         if (currentUser != null) {
@@ -79,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                         val firstName = document.getString("firstName")
                         val lastName = document.getString("lastName")
                         val fullName = if (!firstName.isNullOrEmpty() && !lastName.isNullOrEmpty()) {
-                            "$firstName$lastName"
+                            "$firstName $lastName"
                         } else if (!firstName.isNullOrEmpty()) {
                             firstName
                         } else {

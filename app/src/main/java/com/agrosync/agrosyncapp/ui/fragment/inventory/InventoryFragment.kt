@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -40,6 +41,8 @@ class InventoryFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var navController: NavController
 
+    private var originalResourceList: List<Resource>? = emptyList()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -60,23 +63,50 @@ class InventoryFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         navController = view.findNavController()
 
+        binding.searchViewResources.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterResources(newText.orEmpty())
+                return true
+            }
+        })
+
         lifecycleScope.launch {
             val farm = auth.currentUser?.let { farmRepository.findByOwnerId(it.uid) }
             mainViewModel.refFarm = farm!!
             resourceList = farm.id?.let { resourceRepository.findAllResourceByFarm(it) }
+            originalResourceList = resourceList // Store the original list
+
             Log.d(TAG, "Resource List: $resourceList")
 
-            if (resourceList != null && (resourceList as MutableList<Resource>).isNotEmpty()) {
-                adapter = ResourceAdapter(requireContext(),
-                    (resourceList as MutableList<Resource>).toMutableList(), onClickItem())
-                recyclerView.adapter = adapter
-            } else {
-                Toast.makeText(requireContext(), "Nenhum recurso encontrado", Toast.LENGTH_SHORT).show()
-            }
+            updateRecyclerView(resourceList)
 
             binding.createResourceButton.setOnClickListener {
                 navController.navigate(R.id.action_inventoryFragment_to_resourceCreateFragment)
             }
+        }
+    }
+
+    private fun filterResources(query: String) {
+        val filteredList = originalResourceList?.filter { resource ->
+            resource.name?.contains(query, ignoreCase = true) == true
+        }
+        updateRecyclerView(filteredList)
+    }
+
+    private fun updateRecyclerView(resources: List<Resource>?) {
+        if (resources != null && resources.isNotEmpty()) {
+            adapter = ResourceAdapter(
+                requireContext(),
+                resources.toMutableList(),
+                onClickItem()
+            )
+            recyclerView.adapter = adapter
+        } else {
+            Toast.makeText(requireContext(), "Nenhum insumo encontrado", Toast.LENGTH_SHORT).show()
         }
     }
 
