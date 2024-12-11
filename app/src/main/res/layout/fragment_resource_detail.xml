@@ -139,9 +139,10 @@
                             android:textSize="24sp"
                             android:layout_marginStart="40dp"/>
                         <TextView
+                            android:id="@+id/tvCategory"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Fertilizante"
+                            android:text=""
                             android:textColor="@color/textPrimaryColor"
                             android:textSize="24sp"
                             android:textAlignment="viewEnd"
@@ -226,19 +227,6 @@
                     app:layout_constraintTop_toBottomOf="@id/btnHistorico"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addResourceButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="@color/primaryColor"
-            android:contentDescription="@string/add_resource_desc"
-            android:src="@android:drawable/ic_input_add"
-            android:verticalScrollbarPosition="right"
-            app:layout_constraintBottom_toTopOf="@id/editResourceButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/editResourceButton"
             android:layout_width="wrap_content"

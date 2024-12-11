@@ -47,4 +47,7 @@
     <string name="value_hint">Valor do Insumo</string>
     <string name="date_label">Data:</string>
     <string name="date_hint">Selecione a data</string>
+    <string name="go_to_resource">Ver Insumo</string>
+    <string name="financial_title">Financeiro</string>
+    <string name="historical_title">Histórico de Insumos</string>
 </resources>

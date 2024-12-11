@@ -22,9 +22,9 @@ class ResourceMovimentAdapter (
 
         fun bind(resourceMovement: ResourceMovement, onItemClick: (ResourceMovement) -> Unit) {
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            dataResourceMovement.text = dateFormat.format(resourceMovement.date)
+            dataResourceMovement.text = dateFormat.format(resourceMovement.movementDate)
 
-            valorResourceMovement.text = "Valor: R$${String.format("%.2f", resourceMovement.movementAmount)}"
+            valorResourceMovement.text = "Valor: R$${String.format("%.2f", resourceMovement.value)}"
 
             tipoResourceMovement.text = resourceMovement.operation.displayName
 
