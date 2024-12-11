@@ -65,7 +65,6 @@ class FinancialFragment : Fragment() {
             navController.navigate(R.id.action_financialFragment_to_finance_create_fragment)
         }
 
-//        fetchFinances()
         setupMonthSpinner()
     }
 

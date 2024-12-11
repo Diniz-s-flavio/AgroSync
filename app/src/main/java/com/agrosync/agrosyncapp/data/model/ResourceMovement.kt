@@ -1,8 +1,9 @@
 package com.agrosync.agrosyncapp.data.model
 
+import java.io.Serializable
 import java.util.Date
 
-class ResourceMovement() {
+class ResourceMovement() : Serializable {
     var id: String = ""
     lateinit var resourceId: String
     lateinit var userId: String
